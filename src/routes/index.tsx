@@ -1,102 +1,28 @@
 import { component$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 
-import Counter from '~/components/starter/counter/counter';
-import Hero from '~/components/starter/hero/hero';
-import Infobox from '~/components/starter/infobox/infobox';
-import Starter from '~/components/starter/next-steps/next-steps';
 
 export default component$(() => {
   return (
     <>
-      <Hero />
-      <Starter />
+    <h1>Welcome to the Data Platform Community!</h1>
+    <p>We are thrilled to introduce you to a unified platform that connects data enthusiasts across Canada. Whether you're in Vancouver, Toronto, Montreal, or any other city in this beautiful country, our community is here to help you easily find and connect with like-minded individuals who share your passion for data.</p>
 
-      <div role="presentation" class="ellipsis"></div>
-      <div role="presentation" class="ellipsis ellipsis-purple"></div>
 
-      <div class="container container-center container-spacing-xl">
-        <h3>
-          You can <span class="highlight">count</span>
-          <br /> on me
-        </h3>
-        <Counter />
-      </div>
 
-      <div class="container container-flex">
-        <Infobox>
-          <div q:slot="title" class="icon icon-cli">
-            CLI Commands
-          </div>
-          <>
-            <p>
-              <code>npm run dev</code>
-              <br />
-              Starts the development server and watches for changes
-            </p>
-            <p>
-              <code>npm run preview</code>
-              <br />
-              Creates production build and starts a server to preview it
-            </p>
-            <p>
-              <code>npm run build</code>
-              <br />
-              Creates production build
-            </p>
-            <p>
-              <code>npm run qwik add</code>
-              <br />
-              Runs the qwik CLI to add integrations
-            </p>
-          </>
-        </Infobox>
+<p>Our platform provides a standardized approach to discovering and joining data groups and communities nationwide. No matter where you are in Canada, you can easily explore local data groups, events, and resources tailored to your interests. By fostering collaboration and knowledge sharing, we aim to create a strong and supportive community for all data enthusiasts.</p>
 
-        <div>
-          <Infobox>
-            <div q:slot="title" class="icon icon-apps">
-              Example Apps
-            </div>
-            <p>
-              Have a look at the <a href="/demo/flower">Flower App</a> or the{' '}
-              <a href="/demo/todolist">Todo App</a>.
-            </p>
-          </Infobox>
+<p>Here's what you can expect from our Canadian Data Platform Community:</p>
 
-          <Infobox>
-            <div q:slot="title" class="icon icon-community">
-              Community
-            </div>
-            <ul>
-              <li>
-                <span>Questions or just want to say hi? </span>
-                <a href="https://qwik.builder.io/chat" target="_blank">
-                  Chat on discord!
-                </a>
-              </li>
-              <li>
-                <span>Follow </span>
-                <a href="https://twitter.com/QwikDev" target="_blank">
-                  @QwikDev
-                </a>
-                <span> on Twitter</span>
-              </li>
-              <li>
-                <span>Open issues and contribute on </span>
-                <a href="https://github.com/BuilderIO/qwik" target="_blank">
-                  GitHub
-                </a>
-              </li>
-              <li>
-                <span>Watch </span>
-                <a href="https://qwik.builder.io/media/" target="_blank">
-                  Presentations, Podcasts, Videos, etc.
-                </a>
-              </li>
-            </ul>
-          </Infobox>
-        </div>
-      </div>
+<ul>
+<li>Discover Data Groups: Find data groups in your city or province and connect with individuals who are passionate about data platforms. Discover local meetups, workshops, and networking events where you can share ideas, learn from industry experts, and build lasting relationships.</li>
+</ul>
+<li>Stay Updated: Access a centralized hub for the latest news, blog posts, articles, and resources related to data platforms. Stay informed about emerging trends, best practices, and new technologies. Our platform ensures that you don't miss out on valuable insights from across the country.</li>
+<li>Networking Opportunities: Engage with professionals, practitioners, and experts in the field through our networking features. Connect with fellow data enthusiasts, exchange knowledge, and expand your professional network. Collaborate on projects, share experiences, and find mentorship opportunities within our supportive community.
+We are committed to making your journey in the Canadian data community an enriching one. By providing a standardized platform, we aim to streamline your experience and facilitate connections with individuals who share your interests and goals.</li>
+
+<p>Join us today and be a part of the Canadian Data Platform Community. Let's explore, learn, and grow together!</p>
+
     </>
   );
 });

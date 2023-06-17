@@ -27,7 +27,7 @@
 }
 
 .header li a {
-  color: white;
+  color: var(--qwik-dark-text);
   display: inline-block;
   padding: 0;
   text-decoration: none;
