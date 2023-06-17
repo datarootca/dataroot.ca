@@ -65,8 +65,10 @@ export default component$(() => {
             ))}
             </div>
             <div class={stylus.sidebar}>
+              <div class={stylus.sidebarSlider}>
                 <h1>Category</h1>
                 <p>useful articles</p>
+              </div>
             </div>
         </div>
   );

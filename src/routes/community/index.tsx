@@ -4,121 +4,43 @@ export default component$(() => {
     const province = [
         {
             name: 'Alberta',
-            cities: [
-                {
-                    name: 'Edmonton',
-                },
-                {
-                    name: 'Red Deer',
-                },
-                {
-                    name: 'Grande Prairie',
-                },
-                {
-                    name: 'Cochrane',
-                },
-                {
-                    name: 'Airdrie',
-                },
-                {
-                    name: 'Leduc',
-                },
-            ],
+            slug: 'alberta',
         },
         {
             name: 'British Columbia',
-            cities: [
-                {
-                    name: 'Vancouver',
-                    communities: [
-                        {
-                            name: 'DAMA'
-                        },
-                        {
-                            name: 'Data science group'
-                        }
-                    ]
-                },
-                {
-                    name: 'Victoria',
-                },
-                {
-                    name: 'Chilliwack',
-                },
-                {
-                    name: 'Penticton',
-                },
-                {
-                    name: 'Surrey',
-                },
-                {
-                    name: 'Prince Rupert',
-                }
-            ],
+            slug: 'bc',
         },
         {
             name: 'Manitoba',
-            cities: [
-                { "name": "Winnipeg" },
-                { "name": "Brandon" },
-                { "name": "Steinbach" }
-            ],
+            slug: 'manitoba',
         },
         {
             name: 'New Brunswick',
-            cities: [
-                { "name": "Saint John" },
-                { "name": "Moncton" },
-                { "name": "Fredericton" }
-            ],
+            slug: 'new-brunswick',
         },
         {
             name: 'Newfoundland and Labrador',
-            cities: [
-                { "name": "St. John's" },
-                { "name": "Mount Pearl" },
-                { "name": "Corner Brook" }
-            ],
+            slug: 'nl',
         },
         {
             name: 'Nova Scotia',
-            cities: [
-                { "name": "Halifax" },
-                { "name": "Sydney" },
-                { "name": "Dartmouth" }
-            ],
+            slug: 'nova-scotia',
         },
         {
             name: 'Ontario',
-            cities: [
-                { "name": "Toronto" },
-                { "name": "Ottawa" },
-                { "name": "Mississauga" }
-            ],
+            slug: 'ontario',
         },
         {
             name: 'Prince Edward Island',
-            cities: [
-                { "name": "Charlottetown" },
-                { "name": "Summerside" },
-                { "name": "Stratford" }
-            ],
+            slug: 'pec',
         },
         {
             name: 'Quebec',
-            cities: [
-                { "name": "Montreal" },
-                { "name": "Quebec City" },
-                { "name": "Laval" }
-            ],
+            slug: 'quebec',
         },
         {
             name: 'Saskatchewan',
-            cities: [
-                { "name": "Saskatoon" },
-                { "name": "Regina" },
-                { "name": "Prince Albert" }
-            ],
+            slug: 'saskatchewan',
         },
     ];
     return (
@@ -128,22 +50,8 @@ export default component$(() => {
                 {province.map((p, index) => {
                     return <>
                         <li key={index} >
-                            {p.name}
+                            <a href={`/${p.slug}`}>{p.name}</a>
                         </li>
-                         <ul>
-                            {p.cities.map((c,index) => (
-                                <>
-                                    <li key={index}>{c.name}</li>
-                                    <ul>
-                                        {c.communities ? (
-                                            c.communities.map(cpm => (<li>{cpm.name}</li>))
-                                        ) : '' }
-                                    </ul>
-                                </>
-
-                            ))}
-                        </ul>
-                                        
                     </>
                 })}
             </ul>

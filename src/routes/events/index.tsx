@@ -8,7 +8,7 @@ export default component$(() => {
                     <input placeholder='search' type="text" />
                 </div>
                 <div class={stylus.locationInput}>
-                    <input type="text" placeholder='location' />
+                    <input type="texst" placeholder='location' />
                 </div>
                 <button>?</button>
             </div>

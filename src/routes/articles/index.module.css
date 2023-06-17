@@ -13,6 +13,14 @@
     grid-column: 9 / span 4;
     grid-row-start: 1;
 }
+.sidebar p {
+    margin: 0;
+}
+.sidebarSlider {
+    top: 20px;
+    position: sticky;
+    display: block;
+}
 .article    {
     flex-grow: 1;
     flex-shrink: 1;
