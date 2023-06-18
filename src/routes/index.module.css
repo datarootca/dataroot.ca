@@ -1,0 +1,72 @@
+.row {
+        flex-shrink: 0;
+    margin-top: var(--bs-gutter-y);
+    max-width: 100%;
+    padding-left: calc(var(--bs-gutter-x)*.5);
+    padding-right: calc(var(--bs-gutter-x)*.5);
+    width: 100%;
+}
+.link {
+        margin-bottom: 0.9375rem;
+            -webkit-animation-duration: .5s;
+    animation-duration: .5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: RightSlight;
+    animation-name: slideInRight;
+    -webkit-animation-timing-function: ease;
+    animation-timing-function: ease;
+        opacity: 0;
+            animation-delay: .1s;
+            align-items: flex-start;
+    border: 2px solid #eff1fd;
+    border-radius: 0.9375rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem;
+}
+
+.link a {
+    letter-spacing: -.3px;
+    font-size: calc(1.325rem + .9vw);
+}
+
+@-webkit-keyframes RightSlight {
+    0% {
+        opacity: 0;
+        transform: translateX(5rem)
+    }
+
+    to {
+        opacity: 1;
+        transform: none
+    }
+}
+.content {
+    margin-bottom: .6rem;
+}
+
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(5rem)
+    }
+
+    to {
+        opacity: 1;
+        transform: none
+    }
+}
+.hero {
+    font-size: calc(2.525rem + 3.3vw);
+    letter-spacing: -1.8px;
+    line-height: 1.1;
+    margin-bottom: 0.6rem;
+}
+.description {
+    font-size: calc(1.2625rem + .15vw);
+    font-weight: 400;
+    margin-bottom: 1.25rem;
+    max-width: 600px;
+    margin-top: 0;
+}

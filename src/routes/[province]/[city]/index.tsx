@@ -28,14 +28,15 @@ const cities = [
     },
     {
         name: 'Vancouver',
-        slug: 'vancouver',
+        slug: 'bc',
         communities: [
             {
                 name: 'DAMA',
                 slug: 'dama',
             },
             {
-                name: 'Data science group'
+                name: 'Data science group',
+                slug: 'data-science-group',
             }
         ]
     },

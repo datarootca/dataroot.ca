@@ -1,57 +1,165 @@
-/**
- * WHAT IS THIS FILE?
- *
- * Globally applied styles. No matter which components are in the page or matching route,
- * the styles in here will be applied to the Document, without any sort of CSS scoping.
- *
- */
 
+.hero {
+    font-size: calc(2.525rem + 3.3vw);
+    letter-spacing: -1.8px;
+    line-height: 1.1;
+    margin-bottom: 0.6rem;
+}
+@media screen and (min-width: 576px) {
+    .container{
+        max-width: 1080px;
+    }
+}
+@media screen and (min-width: 768px) {
+    .container {
+        max-width: 1100px;
+    }
+}
+@media screen and (min-width: 992px) {
+    .container {
+        max-width: 1120px;
+    }
+}
+@media screen and (min-width: 1200px) {
+    .container{
+        max-width: 1140px;
+    }
+}
+@media screen and (min-width: 1460px){
+    .container  {
+        max-width: 1428px;
+    }
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    color: #11032b;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    margin-top: 0;
+}
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--bs-gutter-x,1.875rem);
+    padding-right: var(--bs-gutter-x,1.875rem);
+    width: 100%;
+}
+
+section {
+    margin-bottom: 6.25rem;
+}
+*, :after, :before {
+    box-sizing: border-box;
+}
+section {
+    display: block;
+}
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+body {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    font-family: var(--bs-body-font-family);
+    font-size: var(--bs-body-font-size);
+    font-weight: var(--bs-body-font-weight);
+    line-height: var(--bs-body-line-height);
+    margin: 0;
+    text-align: var(--bs-body-text-align);
+}
 :root {
-  --qwik-dark-blue: #006ce9;
-  --qwik-light-blue: #18b6f6;
-  --qwik-light-purple: #ac7ff4;
-  --qwik-dark-purple: #713fc2;
-  --qwik-dirty-black: #1d2033;
-  --qwik-dark-text: #151934;
-  --qwik-dark-background: #ffffff;
+  --cc-bg: #fff;
+  --cc-text: var(--bs-gray-800);
+  --cc-title: var(--bs-gray-900);
+  --cc-btn-primary-bg: var(--bs-primary);
+  --cc-btn-primary-text: var(--cc-bg);
+  --cc-btn-primary-hover-bg: #3722c6;
+  --cc-btn-secondary-bg: var(--bs-secondary);
+  --cc-btn-secondary-text: var(--bs-primary);
+  --cc-btn-secondary-hover-bg: #dfe2ff;
+  --cc-toggle-bg-off: #919ea6;
+  --cc-toggle-bg-on: var(--bs-success);
+  --cc-toggle-bg-readonly: #d5dee2;
+  --cc-toggle-knob-bg: #fff;
+  --cc-toggle-knob-icon-color: #ecf2fa;
+  --cc-block-text: var(--bs-body-color);
+  --cc-cookie-category-block-bg: var(--bs-gray-100);
+  --cc-cookie-category-block-bg-hover: var(--bs-gray-200);
+  --cc-section-border: var(--bs-gray-400);
+  --cc-cookie-table-border: var(--bs-gray-400);
+  --cc-overlay-bg: rgba(4,6,8,.85);
+  --cc-webkit-scrollbar-bg: #cfd5db;
+  --cc-webkit-scrollbar-bg-hover: #9199a0;
+  --bs-blue: #3992f2;
+  --bs-dark-blue: #1b45ae;
+  --bs-indigo: #cf91dd;
+  --bs-purple: #4128e9;
+  --bs-pink: #f9b8c4;
+  --bs-red: #f3352c;
+  --bs-orange: #fd7e41;
+  --bs-yellow: #ffda54;
+  --bs-green: #4bc287;
+  --bs-soft-dark-blue: #ecf1ff;
+  --bs-soft-blue: #f0f9ff;
+  --bs-soft-yellow: #fff4dc;
+  --bs-soft-orange: #fff7f3;
+  --bs-soft-green: #edf9f2;
+  --bs-soft-indigo: #f5f4fb;
+  --bs-soft-pink: #fff7f7;
+  --bs-white: #fff;
+  --bs-gray-dark: #4f4d54;
+  --bs-gray-100: #f8f9fa;
+  --bs-gray-200: #f7f9fb;
+  --bs-gray-300: #dee2e6;
+  --bs-gray-400: #d1d3df;
+  --bs-gray-500: #c0c1ce;
+  --bs-gray-600: #8a8293;
+  --bs-gray-700: #495057;
+  --bs-gray-800: #4f4d54;
+  --bs-gray-900: #11032b;
+  --bs-primary: #4128e9;
+  --bs-secondary: #eef1ff;
+  --bs-success: #4bc287;
+  --bs-warning: #ffda54;
+  --bs-danger: #f3352c;
+  --bs-light: #f8f9fa;
+  --bs-gray: #f7f9fb;
+  --bs-primary-rgb: 65,40,233;
+  --bs-secondary-rgb: 238,241,255;
+  --bs-success-rgb: 75,194,135;
+  --bs-warning-rgb: 255,218,84;
+  --bs-danger-rgb: 243,53,44;
+  --bs-light-rgb: 248,249,250;
+  --bs-gray-rgb: 247,249,251;
+  --bs-white-rgb: 255,255,255;
+  --bs-black-rgb: 0,0,0;
+  --bs-body-color-rgb: 79,77,84;
+  --bs-body-bg-rgb: 255,255,255;
+  --bs-font-sans-serif: "Inter",system-ui,-apple-system,sans-serif;
+  --bs-font-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+  --bs-gradient: linear-gradient(180deg,hsla(0,0%,100%,0.15),hsla(0,0%,100%,0));
+  --bs-body-font-family: var(--bs-font-sans-serif);
+  --bs-body-font-size: 1rem;
+  --bs-body-font-weight: 400;
+  --bs-body-line-height: 1.556;
+  --bs-body-color: #4f4d54;
+  --bs-body-bg: #fff;
 }
 
-html {
-  line-height: 1;
-  -webkit-text-size-adjust: 100%;
-  -moz-tab-size: 4;
-  -o-tab-size: 4;
-  tab-size: 4;
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
-}
 
 body {
-  position: relative;
-  padding: 0;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  font-family: var(--bs-body-font-family);
+  font-size: var(--bs-body-font-size);
+  font-weight: var(--bs-body-font-weight);
+  line-height: var(--bs-body-line-height);
   margin: 0;
-  line-height: inherit;
-}
-
-/**
- * WHAT IS THIS FILE?
- *
- * Globally applied styles. No matter which components are in the page or matching route,
- * the styles in here will be applied to the Document, without any sort of CSS scoping.
- *
- */
-html {
-  -webkit-text-size-adjust: 100%;
-  -moz-tab-size: 4;
-  -o-tab-size: 4;
-  tab-size: 4;
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
-}
-
-body {
-  padding: 0;
-  line-height: inherit;
+  text-align: var(--bs-body-text-align);
 }

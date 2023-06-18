@@ -1,10 +1,11 @@
 import { component$, } from '@builder.io/qwik';
 import { routeLoader$ } from '@builder.io/qwik-city';
-
+import styles from './index.module.css';
+import { Link } from '@builder.io/qwik-city';
 const province = [
     {
         name: 'Alberta',
-        slug: 'alberta',
+        slug: 'ab',
         cities: [
             {
                 name: 'Edmonton',
@@ -73,7 +74,7 @@ const province = [
     },
     {
         name: 'Manitoba',
-        slug: 'manitoba',
+        slug: 'mb',
         cities: [
             { 
                 name: "Winnipeg",
@@ -91,7 +92,7 @@ const province = [
     },
     {
         name: 'New Brunswick',
-        slug: 'new-brunswick',
+        slug: 'nb',
         cities: [
             { 
                 name: "Saint John",
@@ -109,6 +110,7 @@ const province = [
     },
     {
         name: 'Newfoundland and Labrador',
+        slug: 'nl',
         cities: [
             { 
                 name: "St. John's",
@@ -126,6 +128,7 @@ const province = [
     },
     {
         name: 'Nova Scotia',
+        slug: 'ns',
         cities: [
             { 
                 name: "Halifax",
@@ -143,7 +146,7 @@ const province = [
     },
     {
         name: 'Ontario',
-        slug: 'ontario',
+        slug: 'on',
         cities: [
             { 
                 name: "Toronto",
@@ -161,7 +164,7 @@ const province = [
     },
     {
         name: 'Prince Edward Island',
-        slug: 'pec',
+        slug: 'pe',
         cities: [
             { 
                 name: "Charlottetown",
@@ -179,7 +182,7 @@ const province = [
     },
     {
         name: 'Quebec',
-        slug: 'quebec',
+        slug: 'qc',
         cities: [
             { 
                 name: "Montreal",
@@ -197,7 +200,7 @@ const province = [
     },
     {
         name: 'Saskatchewan',
-        slug: 'saskatchewan',
+        slug: 'sk',
         cities: [
             { 
                 name: "Saskatoon",
@@ -238,11 +241,39 @@ export default component$(() => {
     }
  
     return (
-        <div >
-            {province.name}
-            <ul>
-                {province.cities.map((c,i) => (<li key={i}><a href={c.slug}>{c.name}</a></li>))}
-            </ul>
-       </div>
+        <>
+        <h2 class="hero">{province.name}</h2>
+        <div class={styles.content}>
+        {province.cities.map((c, index) => {
+                    return <>
+                        <div key={index} style={{'--bg':c.bg}} class={styles.card}>
+                            <Link href={c.slug}><h2>{c.name}</h2></Link>
+                            <div class={styles.cardHeader}>
+                            <div>
+                            <div>Upcoming events</div>
+                            <h3>5</h3>
+                            </div>
+                            <div>
+                            <div>Groups</div>
+                            <h3>5</h3>
+                            </div>
+                          
+                            <div>
+                                <div>
+                                Past events 
+                                </div>
+                                <h3>
+                                34
+                                </h3>
+                            </div>
+                            </div>
+                            {/*<picture>
+                            <img  src={'/img/' + p.img} alt={p.name} class={styles.img}/>
+                            </picture>*/}
+                        </div>
+                    </>
+                })}
+        </ div>
+       </>
     );
 }); 

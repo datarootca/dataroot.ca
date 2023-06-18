@@ -6,10 +6,11 @@ export default component$(() => {
   return (
     <footer>
       <div class="container">
-        <a href="https://www.builder.io/" target="_blank" class={styles.anchor}>
-          <span>Made by @tkudlicka in Beautifuel British Columbia</span>
-          <span class={styles.spacer}>|</span>
-        </a>
+        <div class={styles.copyright}>
+          <small class={styles.small}>
+              © 2023 <a href="https://www.github.com/tkudlicka">@tkudlicka</a>. All rights reserved
+          </small>
+        </div>
       </div>
     </footer>
   );

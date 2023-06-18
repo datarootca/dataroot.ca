@@ -1,31 +1,41 @@
 import { component$ } from '@builder.io/qwik';
 import styles from './header.module.css';
+import { useLocation } from '@builder.io/qwik-city';
+import { Link } from '@builder.io/qwik-city';
 
 export default component$(() => {
+  const location = useLocation();
+  const menu = [
+    {
+      name: 'Community',
+      uri: 'community'
+    },
+    {
+      name: 'Events',
+      uri: 'events'
+    },
+    {
+      name: 'Articles',
+      uri: 'articles'
+    }
+  ]
+  const currentLocation = location.url.pathname;
   return (
     <header class={styles.header}>
-      <div class={['container', styles.wrapper]}>
+      {}
+      <div class={['container', styles.container]}>
         <div class={styles.logo}>
-          <a href="/" title="qwik">
-            data logo
+          <a class="active" href="/" title="qwik">
+            Dataroot
           </a>
         </div>
         <ul>
-          <li>
-            <a href="/community" target="_self">
-              Community
-            </a>
-          </li>
-          <li>
-            <a href="/events" target="_self">
-              Events
-            </a>
-          </li>
-          <li>
-            <a href="/articles" target="_self">
-              Articles
-            </a>
-          </li>
+          {menu.map((m,i) => (<li key={i}>
+            <Link class={currentLocation.match(m.uri) ? styles.active : ''} 
+            href={"/" +m.uri} target="_self">
+              {m.name}
+            </Link>
+          </li>))}
         </ul>
       </div>
     </header>
