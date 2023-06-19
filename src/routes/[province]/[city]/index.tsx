@@ -1,192 +1,98 @@
 import { component$ } from '@builder.io/qwik';
 import { routeLoader$ } from '@builder.io/qwik-city';
+import styles from './index.module.css';
+import { Link } from '@builder.io/qwik-city';
+import db from '../../../database';
+import {type ICity} from '../index';
+export interface IGroup {
+    name: string,
+    description: string,
+    upcoming_event: number,
+    pasts_event: number,
+    members: number,
+    bg: string,
+    slug: string,
+}
 
-const cities = [
-    {
-        name: 'Edmonton',
-        slug:'Edmonton',
-    },
-    {
-        name: 'Red Deer',
-        slug:'red-deer',
-    },
-    {
-        name: 'Grande Prairie',
-        slug: 'grande-prairie',
-    },
-    {
-        name: 'Cochrane',
-        slug: 'cochrane',
-    },
-    {
-        name: 'Airdrie',
-        slug: 'airdrie',
-    },
-    {
-        name: 'Leduc',
-        slug: 'leduc',
-    },
-    {
-        name: 'Vancouver',
-        slug: 'bc',
-        communities: [
-            {
-                name: 'DAMA',
-                slug: 'dama',
-            },
-            {
-                name: 'Data science group',
-                slug: 'data-science-group',
-            }
-        ]
-    },
-    {
-        name: 'Victoria',
-        slug: 'victoria',
-    },
-    {
-        name: 'Chilliwack',
-        slug: 'chilliwack',
-    },
-    {
-        name: 'Penticton',
-        slug: 'penticton',
-    },
-    {
-        name: 'Surrey',
-        slug: 'surrey',
-    },
-    {
-        name: 'Prince Rupert',
-        slug: 'prince-rupert',
-    },
-    { 
-        name: "Winnipeg",
-        slug: "winnipeg" ,
-    },
-    { 
-        name: "Brandon" ,
-        slug: "brandon" ,
-    },
-    { 
-        name: "Steinbach",
-        slug: "steinbach",
-    },
-    { 
-        name: "Saint John",
-        slug: "saint-john" 
-    },
-    { 
-        name: "Moncton",
-        slug: "moncton" 
-    },
-    { 
-        name: "Fredericton",
-        slug: "fredericton" 
-    },
-    { 
-        name: "St. John's",
-        slug: "st-johns" 
-    },
-    { 
-        name: "Mount Pearl",
-        slug: "st-pearl" 
-    },
-    { 
-        name: "Corner Brook",
-        slug: "st-brook" 
-    },
-    { 
-        name: "Halifax",
-        slug: "halifax" 
-    },
-    { 
-        name: "Sydney",
-        slug: "sydney" 
-    },
-    { 
-        name: "Dartmouth",
-        slug: "dartmouth" 
-    },
-    { 
-        name: "Toronto",
-        slug: "toronto" 
-    },
-    { 
-        name: "Ottawa",
-        slug: "ottawa" 
-    },
-    { 
-        name: "Mississauga",
-        slug: "mississauga" 
-    },
-    { 
-        name: "Charlottetown",
-        slug: "charlottetown" 
-    },
-    { 
-        name: "Summerside",
-        slug: "summerside" 
-    },
-    { 
-        name: "Stratford",
-        slug: "stratford" 
-    },
-    { 
-        name: "Montreal",
-        slug: "montreal" 
-    },
-    { 
-        name: "Quebec City",
-        slug: "quebec" 
-    },
-    { 
-        name: "Laval",
-        slug: "laval" 
-    },
-    { 
-        name: "Saskatoon",
-        slug: "saskatoon" 
-    },
-    { 
-        name: "Regina",
-        slug: "regina" 
-    },
-    { 
-        name: "Prince Albert",
-        slug: "albert" 
+export const useCityLoader = routeLoader$( async({ params, status }) => {
+    const cityQuery = await  db.query<ICity>('select cityid,name from city where slug = $1::text',[params.city])
+    const cityItem = cityQuery.rows[0];
+    if(!cityItem)   {
+        status(404);
+        return null;
     }
-];
-
-export const useCityLoader = routeLoader$( ({ params, status }) => {
-    // Example database call using the id param
-    // The database could return null if the product is not found
-    const index = cities.findIndex(c => c.slug === params.city)
-   
-    if (index === -1) {
-      // Product data was not found
-      // Set the status code to 404
-      status(404);
-    }
-   
-    // return the data (which may be null)
-    return cities[index];
+    
+    const groupQuery = await  db.query<IGroup>(
+    'SELECT g.name,g.slug,g.bg,' +
+    'count(e.eventid) as upcoming_event,' +
+    'count(e.eventid) as pasts_event,' +
+    'g.members ' +
+    'FROM "group" g ' +
+    'LEFT JOIN "event" e ON e.groupid = g.groupid ' +
+    'WHERE g.cityid = $1::int ' +
+    'GROUP BY g.name,g.slug,g.bg,g.members'
+    ,[cityItem.cityid])
+    
+    return {
+        cityItem,
+        groupItems: groupQuery.rows,
+    };
   });
    
 
 export default component$(() => {
-    const { value: city} = useCityLoader();
-    if (!city) {
+    const { value   } = useCityLoader();
+    if (!value) {
         return <p>Sorry, looks like city doesnt exists.</p>;
     }
+    const { cityItem,groupItems } = value;
     return (
-        <div >
-            { city.name}
-            <ul>
-                {city.communities && city.communities.length !== 0 
-                    ? city.communities.map(com => <li><a href={com.slug}>{com.name}</a></li>)
+        <>
+            <h2 class="hero">{cityItem.name}</h2>
+            <div class={styles.content}>
+                {groupItems && groupItems.length !== 0 
+                    ? groupItems.map((com,i) => {
+                        return (
+                            <div key={i} style={{'--bg':com.bg}} class={styles.card}>
+                            <Link href={com.slug}><h2>{com.name}</h2></Link>
+                            <div>{com.description}
+                            </div>
+                            <div class={styles.cardHeader}>
+                                <div>
+                                    <div>Upcoming events</div>
+                                    <h3>{com.upcoming_event || 0}</h3>
+                                </div>
+                                <div>
+                                    <div>Members</div>
+                                    <h3>{com.members || 0}</h3>
+                                </div>
+                            
+                                <div>
+                                    <div>Past events</div>
+                                    <h3>{com.pasts_event || 0}</h3>
+                                </div>
+                            </div>
+                            <div>
+                                <button>sources</button>
+                                <button>sources</button>
+                                <button>sources</button>
+                                <button>sources</button>
+                            </div>
+                            <div>
+                                <button>#tags</button>
+                                <button>#tags</button>
+                                <button>#tags</button>
+                                <button>#tags</button>
+                            </div>
+                          
+                            {/*<picture>
+                            <img  src={'/img/' + p.img} alt={p.name} class={styles.img}/>
+                            </picture>*/}
+                        </div>
+                        )
+                    })
                     : 'City doesnt have community'}
-            </ul>
-       </div>
+            </div>
+       </>
     );
 }); 
