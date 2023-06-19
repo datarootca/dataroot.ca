@@ -1,75 +1,87 @@
-
 .hero {
-    font-size: calc(2.525rem + 3.3vw);
-    letter-spacing: -1.8px;
-    line-height: 1.1;
-    margin-bottom: 0.6rem;
+  font-size: calc(2.525rem + 3.3vw);
+  letter-spacing: -1.8px;
+  line-height: 1.1;
+  margin-bottom: 0.6rem;
 }
 @media screen and (min-width: 576px) {
-    .container{
-        max-width: 1080px;
-    }
+  .container {
+    max-width: 1080px;
+  }
 }
 @media screen and (min-width: 768px) {
-    .container {
-        max-width: 1100px;
-    }
+  .container {
+    max-width: 1100px;
+  }
 }
 @media screen and (min-width: 992px) {
-    .container {
-        max-width: 1120px;
-    }
+  .container {
+    max-width: 1120px;
+  }
 }
 @media screen and (min-width: 1200px) {
-    .container{
-        max-width: 1140px;
-    }
+  .container {
+    max-width: 1140px;
+  }
 }
-@media screen and (min-width: 1460px){
-    .container  {
-        max-width: 1428px;
-    }
+@media screen and (min-width: 1460px) {
+  .container {
+    max-width: 1428px;
+  }
 }
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-    color: #11032b;
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 0.5rem;
-    margin-top: 0;
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #11032b;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+  margin-top: 0;
 }
 .container {
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: var(--bs-gutter-x,1.875rem);
-    padding-right: var(--bs-gutter-x,1.875rem);
-    width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--bs-gutter-x, 1.875rem);
+  padding-right: var(--bs-gutter-x, 1.875rem);
+  width: 100%;
 }
 
 section {
-    margin-bottom: 6.25rem;
+  margin-bottom: 6.25rem;
 }
-*, :after, :before {
-    box-sizing: border-box;
+*,
+:after,
+:before {
+  box-sizing: border-box;
 }
 section {
-    display: block;
+  display: block;
 }
 body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 body {
-    -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    background-color: var(--bs-body-bg);
-    color: var(--bs-body-color);
-    font-family: var(--bs-body-font-family);
-    font-size: var(--bs-body-font-size);
-    font-weight: var(--bs-body-font-weight);
-    line-height: var(--bs-body-line-height);
-    margin: 0;
-    text-align: var(--bs-body-text-align);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  font-family: var(--bs-body-font-family);
+  font-size: var(--bs-body-font-size);
+  font-weight: var(--bs-body-font-weight);
+  line-height: var(--bs-body-line-height);
+  margin: 0;
+  text-align: var(--bs-body-text-align);
 }
 :root {
   --cc-bg: #fff;
@@ -91,7 +103,7 @@ body {
   --cc-cookie-category-block-bg-hover: var(--bs-gray-200);
   --cc-section-border: var(--bs-gray-400);
   --cc-cookie-table-border: var(--bs-gray-400);
-  --cc-overlay-bg: rgba(4,6,8,.85);
+  --cc-overlay-bg: rgba(4, 6, 8, 0.85);
   --cc-webkit-scrollbar-bg: #cfd5db;
   --cc-webkit-scrollbar-bg-hover: #9199a0;
   --bs-blue: #3992f2;
@@ -128,20 +140,25 @@ body {
   --bs-danger: #f3352c;
   --bs-light: #f8f9fa;
   --bs-gray: #f7f9fb;
-  --bs-primary-rgb: 65,40,233;
-  --bs-secondary-rgb: 238,241,255;
-  --bs-success-rgb: 75,194,135;
-  --bs-warning-rgb: 255,218,84;
-  --bs-danger-rgb: 243,53,44;
-  --bs-light-rgb: 248,249,250;
-  --bs-gray-rgb: 247,249,251;
-  --bs-white-rgb: 255,255,255;
-  --bs-black-rgb: 0,0,0;
-  --bs-body-color-rgb: 79,77,84;
-  --bs-body-bg-rgb: 255,255,255;
-  --bs-font-sans-serif: "Inter",system-ui,-apple-system,sans-serif;
-  --bs-font-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-  --bs-gradient: linear-gradient(180deg,hsla(0,0%,100%,0.15),hsla(0,0%,100%,0));
+  --bs-primary-rgb: 65, 40, 233;
+  --bs-secondary-rgb: 238, 241, 255;
+  --bs-success-rgb: 75, 194, 135;
+  --bs-warning-rgb: 255, 218, 84;
+  --bs-danger-rgb: 243, 53, 44;
+  --bs-light-rgb: 248, 249, 250;
+  --bs-gray-rgb: 247, 249, 251;
+  --bs-white-rgb: 255, 255, 255;
+  --bs-black-rgb: 0, 0, 0;
+  --bs-body-color-rgb: 79, 77, 84;
+  --bs-body-bg-rgb: 255, 255, 255;
+  --bs-font-sans-serif: "Inter", system-ui, -apple-system, sans-serif;
+  --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  --bs-gradient: linear-gradient(
+    180deg,
+    hsla(0, 0%, 100%, 0.15),
+    hsla(0, 0%, 100%, 0)
+  );
   --bs-body-font-family: var(--bs-font-sans-serif);
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
@@ -150,10 +167,9 @@ body {
   --bs-body-bg: #fff;
 }
 
-
 body {
   -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   background-color: var(--bs-body-bg);
   color: var(--bs-body-color);
   font-family: var(--bs-body-font-family);
