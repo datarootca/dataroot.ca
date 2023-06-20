@@ -29,13 +29,7 @@ export default component$(() => {
   return (
     <>
       <Header />
-      <main class="">
-        <div class="base">
-          <div class="container">
-            <Slot />
-          </div>
-        </div>
-      </main>
+      <Slot />
       <Footer />
     </>
   );

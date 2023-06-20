@@ -29,15 +29,22 @@
   border-radius: 10px;
 }
 .imageWrapper {
-  max-height: 200px;
+  align-self: center;
+  grid-column: 1/-1;
+  grid-row: 1 / span 2;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 3;
+  height: 425px;
+}
+.eventWrapper {
+  display: flex;
+  align-items: center;
+  margin: 24px 0 16px 0;
 }
 .titleWrapper {
   margin-left: 8px;
-}
-.eventWrapper {
-  align-items: center;
-  margin: 24px 0 16px 0;
-  display: flex;
 }
 .slider {
   display: inline-flex;
@@ -45,11 +52,66 @@
   background: var(--slider-bg, rgb(248, 248, 248));
   padding: 4px;
   border-radius: 8px;
-  margin-bottom: 24px;
+}
+.event {
+  --direction: row;
+  --color: rgb(145, 147, 150);
+}
+.eventHeader {
+  border-right: 1px solid var(--border-bg, rgb(235, 237, 239));
+}
+.eventHero {
+  padding: 0 24px 0 24px;
+}
+.eventTime {
+  color: var(--color) ;
+  font-weight: 450;
+  padding: 0 24px 0 24px;
+}
+.eventHeader {
+  text-align: center;
+  padding: 0 24px 0 8px;
+}
+.eventWeek {
+  font-size: 16px;
+  color: var(--q-font, rgb(216, 87, 40));
+  font-weight: 700;
+}
+.eventHours,.eventLocation {
+  display: flex;
+  align-items: center;
+}
+.eventTime span {
+  margin-left: 8px;
+}
+.eventTime svg {
+  fill: var(--color);
+}
+.eventDate {
+  color: var(--q-font, rgb(216, 87, 40));
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 30px;
+}
+.eventTitle {
+  font-weight: 450;
+  color: var(--q-font, rgb(83, 83, 85));
+}
+
+.relatedCategory {
+  margin-bottom: 0;
+}
+.relatedCategory a:first-child {
+  margin-left: 0px;
+}
+.relatedCategory a {
+  padding-left: 8px;
+  white-space:pre-wrap;
+  word-break:break-word;
 }
 .circle {
   fill: none;
-  stroke: #000000;
+  stroke: var(--color,#000000);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 32px;
@@ -76,12 +138,22 @@
   color: white;
 }
 .description {
-  grid-row-gap: 30px;
-  grid-column-gap: 20px;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  position: relative;
-  margin-bottom: 24px;
+  margin: 0;
+}
+.info {
+  display: flex;
+  align-items: center;
+}
+.info span {
+  margin-left: 8px;
+}
+.social {
+  margin: 16px 0 24px 0;
+}
+.links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 .subtitle {
   display: flex;
@@ -123,8 +195,6 @@
   margin-left: 8px;
   border-radius: 6px;
   font-size: 12px;
-  display: flex;
-  align-items: center;
   font-weight: 600;
   border: solid var(--badge-shadow, rgba(0, 0, 0, 0.5)) 1px;
   color: var(--badge-cl, currentColor);
@@ -132,6 +202,10 @@
 }
 .stroke {
   stroke-width: 2px;
+}
+.link {
+  display: flex;
+  align-items: center;
 }
 .link svg {
   width: 24px;
@@ -187,40 +261,9 @@
 .img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill;
 }
-.cardHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-@media (min-width: 768px) {
-  .card {
-    padding: 1.5rem;
-  }
-}
-@media (min-width: 1200px) {
-  .card {
-    padding: 2rem;
-  }
-}
-@media (min-width: 1460px) {
-  .card {
-    padding: 2.5rem;
-  }
-}
-.card {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  background-color: var(--bg, #fae6db);
-  padding: 1.5rem;
-}
-.card h2 {
-  color: #11032b;
-  font-weight: 800;
-  line-height: 1.2;
-  margin-bottom: 0.5rem;
-  margin-top: 0;
+.cardWrapper {
+  margin-top: 24px;
+  margin-bottom: 24px;
 }

@@ -1,13 +1,21 @@
-import { component$ } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import { component$, Slot } from "@builder.io/qwik";
 import stylus from "./index.module.css";
+import { Link, routeLoader$, useLocation } from "@builder.io/qwik-city";
 const cities = [
+  {
+    name: "DAMA",
+    slug: "dama",
+    description: "",
+    img: "",
+    url: "",
+    groups: [],
+  },
   {
     name: "Data science group",
     slug: "data-science-group",
     img: "https://secure.meetupstatic.com/photos/event/9/5/1/6/clean_471398166.jpeg",
     description: `Welcome to the Data Science LEARNING Group!
-        A meetup for people who want to LEARN Data Science as a group. Taking online courses together. Reading books together. Etc. Also with some hands-on workshops taught by 'experts'. It's also a place where you can ask others questions and for help.`,
+      A meetup for people who want to LEARN Data Science as a group. Taking online courses together. Reading books together. Etc. Also with some hands-on workshops taught by 'experts'. It's also a place where you can ask others questions and for help.`,
     url: "https://vantech.herokuapp.com/",
     groups: [
       {
@@ -34,14 +42,13 @@ const cities = [
     events: [],
   },
 ];
-
 function getIcon(provider: string) {
   if (provider === "slack") {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="42"
-        height="42"
+        width="20"
+        height="20"
         viewBox="0 0 32 32"
       >
         <g id="ic-social-media-slack">
@@ -184,17 +191,12 @@ function getIcon(provider: string) {
 }
 
 export const useCityLoader = routeLoader$(({ params, status }) => {
-  // Example database call using the id param
-  // The database could return null if the product is not found
   const index = cities.findIndex((c) => c.slug === params.community);
-
   if (index === -1) {
-    // Product data was not found
-    // Set the status code to 404
     status(404);
+    return null;
   }
 
-  // return the data (which may be null)
   return cities[index];
 });
 
@@ -203,14 +205,51 @@ export default component$(() => {
   if (!community) {
     return <p>Sorry, looks like community doesnt exists.</p>;
   }
+
+  const location = useLocation();
+  const currentLocation = location.url.pathname;
+
+  const sliderLinks = [
+    {
+      name: "Overview",
+      uri: "./",
+    },
+    {
+      name: "Upcoming",
+      uri: "upcoming",
+    },
+    {
+      name: "Past",
+      uri: "past",
+    },
+    {
+      name: "Cancelled",
+      uri: "cancelled",
+    },
+  ];
   return (
     <>
-      <div class={stylus.card}>
-        <div class={stylus.header}>
-          <h5>Overview</h5>
+      <div class={stylus.imageWrapper}>
+        <picture>
+          <img class={stylus.img} src={community.img} alt={community.name} />
+        </picture>
+      </div>
+      <div class="container">
+        <div class={stylus.eventWrapper}>
+          <div class={stylus.iconWrapper}></div>
+          <div class={stylus.titleWrapper}>
+            <div class={stylus.heroWrapper}>
+              <h2 class={stylus.hero}>{community.name.toUpperCase()}</h2>
+              <div class={[stylus.badge, stylus.badgeActive]}>Active</div>
+            </div>
+            <div class={stylus.subtitle}>
+              <span class={stylus.author}>Tomas Kudllicka</span>
+              <span class={stylus.dot}></span>
+              <span class={stylus.access}>PUBLIC</span>
+            </div>
+          </div>
         </div>
-
-        <span>
+        <div class={stylus.info}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -223,9 +262,9 @@ export default component$(() => {
             />
             <circle cx="256" cy="192" r="48" class={stylus.circle} />
           </svg>
-          Vancouver,BC
-        </span>
-        <div>
+          <span>Vancouver,BC</span>
+        </div>
+        <div class={stylus.info}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -240,28 +279,70 @@ export default component$(() => {
               stroke-linecap="round"
               stroke-linejoin="round"
             />
-          </svg>{" "}
-          1300 members
+          </svg>
+          <span>1300 members</span>
         </div>
-        <div>
-          {community.groups?.map((g, i) => (
-            <a class={stylus.link} target="_blank" key={i} href={g.url}>
-              {getIcon(g.type)}
-            </a>
+        <div class={stylus.info}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M20.5 21C21.8807 21 23 19.8807 23 18.5C23 16.1726 21.0482 15.1988 19 14.7917M15 11C17.2091 11 19 9.20914 19 7C19 4.79086 17.2091 3 15 3M3.5 21.0001H14.5C15.8807 21.0001 17 19.8808 17 18.5001C17 14.4194 11 14.5001 9 14.5001C7 14.5001 1 14.4194 1 18.5001C1 19.8808 2.11929 21.0001 3.5 21.0001ZM13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z"
+              stroke="#000000"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span>fees</span>
+        </div>
+        <div class={stylus.social}>
+          <h5>Find us also at:</h5>
+          <div class={stylus.links}>
+            {community.groups?.map((g, i) => (
+              <a class={stylus.link} target="_blank" key={i} href={g.url}>
+                {getIcon(g.type)}
+              </a>
+            ))}
+          </div>
+        </div>
+        <div class={stylus.slider}>
+          {sliderLinks.map((link, index) => (
+            <span
+              key={index}
+              class={currentLocation.match(link.uri) ? stylus.active : ""}
+            >
+              <Link href={link.uri}>{link.name}</Link>
+            </span>
           ))}
         </div>
+        <Slot /> {/* <== Child layout/route inserted here */}
       </div>
-      <div class={stylus.description}>
-        <div class={stylus.detail}>
-          <p>{community.description}</p>
+      <div class={stylus.line}>
+        <hr />
+        <div class={stylus.updated}>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 40 40"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19.5 8C19.4337 7.99907 19.368 8.01131 19.3065 8.03601C19.245 8.06072 19.189 8.0974 19.1418 8.14392C19.0947 8.19045 19.0572 8.24588 19.0316 8.30701C19.006 8.36814 18.9929 8.43374 18.9929 8.5C18.9929 8.56627 19.006 8.63187 19.0316 8.693C19.0572 8.75413 19.0947 8.80956 19.1418 8.85608C19.189 8.90261 19.245 8.93929 19.3065 8.96399C19.368 8.9887 19.4337 9.00094 19.5 9C25.3048 9 30 13.6952 30 19.5C30 25.3048 25.3048 30 19.5 30C13.6952 30 9 25.3048 9 19.5C9 16.1537 10.5654 13.1824 13 11.2598V14.5C12.9991 14.5663 13.0113 14.632 13.036 14.6935C13.0607 14.755 13.0974 14.811 13.1439 14.8582C13.1904 14.9053 13.2459 14.9428 13.307 14.9684C13.3681 14.994 13.4337 15.0071 13.5 15.0071C13.5663 15.0071 13.6319 14.994 13.693 14.9684C13.7541 14.9428 13.8096 14.9053 13.8561 14.8582C13.9026 14.811 13.9393 14.755 13.964 14.6935C13.9887 14.632 14.0009 14.5663 14 14.5V10.2754V9.5H9C8.93374 9.49907 8.86796 9.51131 8.80648 9.53601C8.74499 9.56072 8.68903 9.5974 8.64185 9.64392C8.59466 9.69045 8.5572 9.74588 8.53162 9.80701C8.50605 9.86814 8.49288 9.93374 8.49288 10C8.49288 10.0663 8.50605 10.1319 8.53162 10.193C8.5572 10.2541 8.59466 10.3096 8.64185 10.3561C8.68903 10.4026 8.74499 10.4393 8.80648 10.464C8.86796 10.4887 8.93374 10.5009 9 10.5H12.3496C9.70104 12.6074 8 15.8561 8 19.5C8 25.8452 13.1548 31 19.5 31C25.8452 31 31 25.8452 31 19.5C31 13.1548 25.8452 8 19.5 8Z"
+              fill="--color"
+            />
+          </svg>
+          Updated 5min ago
         </div>
       </div>
-      <div></div>
-      <div class={stylus.imageWrapper}>
-        <picture>
-          <img class={stylus.img} src={community.img} alt={community.name} />
-        </picture>
-      </div>
+      <section class="container">
+        <h3>Similiar group nearby</h3>
+      </section>
     </>
   );
 });

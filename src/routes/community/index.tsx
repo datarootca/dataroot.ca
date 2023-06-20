@@ -34,7 +34,7 @@ export default component$(() => {
           return (
             <>
               <div key={index} style={{ "--bg": p.bg }} class={styles.card}>
-                <Link href={`/${p.slug}`}>
+                <Link href={`/p/${p.slug}`}>
                   <h2>{p.name}</h2>
                 </Link>
                 <div class={styles.cardHeader}>

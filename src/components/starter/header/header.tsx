@@ -22,27 +22,24 @@ export default component$(() => {
   const currentLocation = location.url.pathname;
   return (
     <header class={styles.header}>
-      {}
-      <div class={["container", styles.container]}>
-        <div class={styles.logo}>
-          <a class="active" href="/" title="qwik">
-            Dataroot
-          </a>
-        </div>
-        <ul>
-          {menu.map((m, i) => (
-            <li key={i}>
-              <Link
-                class={currentLocation.match(m.uri) ? styles.active : ""}
-                href={"/" + m.uri}
-                target="_self"
-              >
-                {m.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+      <div class={styles.logo}>
+        <a class="active" href="/" title="qwik">
+          Dataroot
+        </a>
       </div>
+      <ul>
+        {menu.map((m, i) => (
+          <li key={i}>
+            <Link
+              class={currentLocation.match(m.uri) ? styles.active : ""}
+              href={"/" + m.uri}
+              target="_self"
+            >
+              {m.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </header>
   );
 });

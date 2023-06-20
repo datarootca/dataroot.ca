@@ -2,8 +2,8 @@ import { component$ } from "@builder.io/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import styles from "./index.module.css";
 import { Link } from "@builder.io/qwik-city";
-import db from "../../../database";
-import { type ICity } from "../index";
+import db from "../../database";
+import { type ICity } from "../p/[province]/index";
 export interface IGroup {
   name: string;
   description: string;

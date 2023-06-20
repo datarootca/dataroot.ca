@@ -3,7 +3,7 @@ import { routeLoader$ } from "@builder.io/qwik-city";
 import styles from "./index.module.css";
 import { Link } from "@builder.io/qwik-city";
 
-import db from "../../database";
+import db from "../../../database";
 
 const province = [
   {
@@ -71,18 +71,12 @@ export const useProvinceLoader = routeLoader$(
     cityItems: ICity[];
     province: IProvince;
   } | null> => {
-    // Example database call using the id param
-    // The database could return null if the product is not found
     const index = province.findIndex((p) => p.slug === params.province);
 
     if (index === -1) {
-      // Product data was not found
-      // Set the status code to 404
       status(404);
       return null;
     }
-
-    // return the data (which may be null)
 
     const cityItems = await db.query<ICity>(
       `
@@ -126,7 +120,7 @@ export default component$(() => {
           return (
             <>
               <div key={index} style={{ "--bg": c.bg }} class={styles.card}>
-                <Link href={c.slug}>
+                <Link href={"/" + c.slug}>
                   <h2>{c.name}</h2>
                 </Link>
                 <div class={styles.cardHeader}>
