@@ -64,7 +64,7 @@
   padding: 0 24px 0 24px;
 }
 .eventTime {
-  color: var(--color) ;
+  color: var(--color);
   font-weight: 450;
   padding: 0 24px 0 24px;
 }
@@ -77,7 +77,8 @@
   color: var(--q-font, rgb(216, 87, 40));
   font-weight: 700;
 }
-.eventHours,.eventLocation {
+.eventHours,
+.eventLocation {
   display: flex;
   align-items: center;
 }
@@ -106,12 +107,12 @@
 }
 .relatedCategory a {
   padding-left: 8px;
-  white-space:pre-wrap;
-  word-break:break-word;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .circle {
   fill: none;
-  stroke: var(--color,#000000);
+  stroke: var(--color, #000000);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 32px;
