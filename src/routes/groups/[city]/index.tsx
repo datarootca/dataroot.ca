@@ -2,8 +2,7 @@ import { component$ } from "@builder.io/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import styles from "./index.module.css";
 import { Link } from "@builder.io/qwik-city";
-import db from "../../database";
-import { type ICity } from "../p/[province]/index";
+import db from "../../../database";
 export interface IGroup {
   name: string;
   description: string;
@@ -15,7 +14,7 @@ export interface IGroup {
 }
 
 export const useCityLoader = routeLoader$(async ({ params, status }) => {
-  const cityQuery = await db.query<ICity>(
+  const cityQuery = await db.query<any>(
     "select cityid,name from city where slug = $1::text",
     [params.city]
   );

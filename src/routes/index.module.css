@@ -57,16 +57,37 @@
     transform: none;
   }
 }
-.hero {
-  font-size: calc(2.525rem + 3.3vw);
-  letter-spacing: -1.8px;
-  line-height: 1.1;
-  margin-bottom: 0.6rem;
+.heroContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.heroHiglight {
+  color: #be2626;
+}
+.subtitle {
+  margin-top: 0;
+  text-align: center;
+  font-size: 2.9em;
+  line-height: 1.2em;
+  font-weight: 700;
+  padding-bottom: 38px;
 }
 .description {
-  font-size: calc(1.2625rem + 0.15vw);
-  font-weight: 400;
-  margin-bottom: 1.25rem;
-  max-width: 600px;
-  margin-top: 0;
+  text-align: center;
+  align-self: center;
+  font-size: 1.4em;
+  line-height: 1.6em;
+  padding-top: 1em;
+  margin: 0;
+  color: black;
+  padding-bottom: 2rem;
+}
+.hero {
+  text-align: center;
+  margin-top: 2.5rem;
+  font-size: 2.9em;
+  line-height: 1.2em;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
 }

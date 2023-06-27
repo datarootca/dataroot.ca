@@ -1,0 +1,27 @@
+.author {
+  margin: 4px 0;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--secondary-text, #65676b);
+  line-height: 1.2308;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+.location {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  line-height: 1.2308;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+
+.title:hover,
+.location:hover {
+  text-decoration: underline;
+}
+.title {
+  margin: 4px 0;
+  font-weight: 600;
+  font-size: 1.0625rem;
+}

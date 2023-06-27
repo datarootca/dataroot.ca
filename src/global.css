@@ -1,6 +1,5 @@
 .hero {
-  font-size: calc(2.525rem + 3.3vw);
-  letter-spacing: -1.8px;
+  font-size: 1.5rem;
   line-height: 1.1;
   margin-bottom: 0.6rem;
 }
@@ -42,7 +41,7 @@ h4,
 h5,
 h6 {
   color: #11032b;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.2;
   margin-bottom: 0.5rem;
   margin-top: 0;
@@ -55,9 +54,6 @@ h6 {
   width: 100%;
 }
 
-section {
-  margin-bottom: 6.25rem;
-}
 *,
 :after,
 :before {
@@ -99,10 +95,7 @@ body {
   --cc-toggle-knob-bg: #fff;
   --cc-toggle-knob-icon-color: #ecf2fa;
   --cc-block-text: var(--bs-body-color);
-  --cc-cookie-category-block-bg: var(--bs-gray-100);
-  --cc-cookie-category-block-bg-hover: var(--bs-gray-200);
   --cc-section-border: var(--bs-gray-400);
-  --cc-cookie-table-border: var(--bs-gray-400);
   --cc-overlay-bg: rgba(4, 6, 8, 0.85);
   --cc-webkit-scrollbar-bg: #cfd5db;
   --cc-webkit-scrollbar-bg-hover: #9199a0;
@@ -151,7 +144,7 @@ body {
   --bs-black-rgb: 0, 0, 0;
   --bs-body-color-rgb: 79, 77, 84;
   --bs-body-bg-rgb: 255, 255, 255;
-  --bs-font-sans-serif: "Inter", system-ui, -apple-system, sans-serif;
+  --bs-font-sans-serif: Cerebrisans, Arial, sans-serif;
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(
@@ -168,6 +161,7 @@ body {
 }
 
 body {
+  overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   background-color: var(--bs-body-bg);

@@ -5,10 +5,19 @@ const cities = [
   {
     name: "DAMA",
     slug: "dama",
-    description: "",
-    img: "",
-    url: "",
-    groups: [],
+    description:
+      "Data Management is the development of architectures, policies, practices and procedures to manage the data life cycle. (DAMA International)/” In most organizations, systems and data evolve more organically than data management professionals would like. Particularly, large organizations, various projects and initiatives, mergers and acquisitions, and other business activities result in multiple systems executing essentially the same functions, isolated from each other. These conditions inevitably lead to inconsistencies in data structure and data values between systems. This variability increases costs and risks. Both can be reduced through the management of Master Data and Reference Data. ” DAMA-DMBoK",
+    img: "https://dama-vancouver.org/resources/Pictures/01008_201809_AlbertNormandin_False_CreekVancouverDowntownCityAerial_a589f0f4-e991-4c10-86c3-0f13ebeb927c.jpg",
+    organizator: {
+      name: "Gordon Hamilton",
+      img: "test",
+    },
+    groups: [
+      {
+        type: "linkedin",
+        url: " https://www.linkedin.com/company/learning-data-science/",
+      },
+    ],
   },
   {
     name: "Data science group",
@@ -17,6 +26,10 @@ const cities = [
     description: `Welcome to the Data Science LEARNING Group!
       A meetup for people who want to LEARN Data Science as a group. Taking online courses together. Reading books together. Etc. Also with some hands-on workshops taught by 'experts'. It's also a place where you can ask others questions and for help.`,
     url: "https://vantech.herokuapp.com/",
+    organizator: {
+      name: "Tomas Kudlicka",
+      img: "test",
+    },
     groups: [
       {
         type: "meetup",
@@ -219,97 +232,102 @@ export default component$(() => {
       uri: "upcoming",
     },
     {
-      name: "Past",
-      uri: "past",
+      name: "Reccuring",
+      uri: "reccuring",
     },
     {
-      name: "Cancelled",
-      uri: "cancelled",
+      name: "Past",
+      uri: "past",
     },
   ];
   return (
     <>
-      <div class={stylus.imageWrapper}>
-        <picture>
-          <img class={stylus.img} src={community.img} alt={community.name} />
-        </picture>
-      </div>
+      <section class={stylus.heroSection}>
+        <div class={stylus.imageWrapper}>
+          <picture>
+            <img class={stylus.img} src={community.img} alt={community.name} />
+          </picture>
+        </div>
+        <div class="container">
+          <div class={stylus.eventWrapper}>
+            <div class={stylus.iconWrapper}></div>
+            <div class={stylus.titleWrapper}>
+              <div class={stylus.heroWrapper}>
+                <h2 class={stylus.hero}>{community.name.toUpperCase()}</h2>
+                <div class={[stylus.badge, stylus.badgeActive]}>Active</div>
+              </div>
+              <div class={stylus.subtitle}>
+                <span class={stylus.author}>{community.organizator.name}</span>
+
+                <span class={stylus.dot}></span>
+                <span class={stylus.access}>PUBLIC</span>
+              </div>
+            </div>
+          </div>
+          <div class={stylus.info}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 512 512"
+            >
+              <path
+                d="M256,48c-79.5,0-144,61.39-144,137,0,87,96,224.87,131.25,272.49a15.77,15.77,0,0,0,25.5,0C304,409.89,400,272.07,400,185,400,109.39,335.5,48,256,48Z"
+                class={stylus.circle}
+              />
+              <circle cx="256" cy="192" r="48" class={stylus.circle} />
+            </svg>
+            <span>Vancouver,BC</span>
+          </div>
+          <div class={stylus.info}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M20.5 21C21.8807 21 23 19.8807 23 18.5C23 16.1726 21.0482 15.1988 19 14.7917M15 11C17.2091 11 19 9.20914 19 7C19 4.79086 17.2091 3 15 3M3.5 21.0001H14.5C15.8807 21.0001 17 19.8808 17 18.5001C17 14.4194 11 14.5001 9 14.5001C7 14.5001 1 14.4194 1 18.5001C1 19.8808 2.11929 21.0001 3.5 21.0001ZM13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z"
+                stroke="#000000"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span>1300 members</span>
+          </div>
+          <div class={stylus.info}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M20.5 21C21.8807 21 23 19.8807 23 18.5C23 16.1726 21.0482 15.1988 19 14.7917M15 11C17.2091 11 19 9.20914 19 7C19 4.79086 17.2091 3 15 3M3.5 21.0001H14.5C15.8807 21.0001 17 19.8808 17 18.5001C17 14.4194 11 14.5001 9 14.5001C7 14.5001 1 14.4194 1 18.5001C1 19.8808 2.11929 21.0001 3.5 21.0001ZM13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z"
+                stroke="#000000"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span>fees</span>
+          </div>
+          <div class={stylus.social}>
+            <h5>Find us also at:</h5>
+            <div class={stylus.links}>
+              {community.groups?.map((g, i) => (
+                <a class={stylus.link} target="_blank" key={i} href={g.url}>
+                  {getIcon(g.type)}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
       <div class="container">
-        <div class={stylus.eventWrapper}>
-          <div class={stylus.iconWrapper}></div>
-          <div class={stylus.titleWrapper}>
-            <div class={stylus.heroWrapper}>
-              <h2 class={stylus.hero}>{community.name.toUpperCase()}</h2>
-              <div class={[stylus.badge, stylus.badgeActive]}>Active</div>
-            </div>
-            <div class={stylus.subtitle}>
-              <span class={stylus.author}>Tomas Kudllicka</span>
-              <span class={stylus.dot}></span>
-              <span class={stylus.access}>PUBLIC</span>
-            </div>
-          </div>
-        </div>
-        <div class={stylus.info}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 512 512"
-          >
-            <path
-              d="M256,48c-79.5,0-144,61.39-144,137,0,87,96,224.87,131.25,272.49a15.77,15.77,0,0,0,25.5,0C304,409.89,400,272.07,400,185,400,109.39,335.5,48,256,48Z"
-              class={stylus.circle}
-            />
-            <circle cx="256" cy="192" r="48" class={stylus.circle} />
-          </svg>
-          <span>Vancouver,BC</span>
-        </div>
-        <div class={stylus.info}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M20.5 21C21.8807 21 23 19.8807 23 18.5C23 16.1726 21.0482 15.1988 19 14.7917M15 11C17.2091 11 19 9.20914 19 7C19 4.79086 17.2091 3 15 3M3.5 21.0001H14.5C15.8807 21.0001 17 19.8808 17 18.5001C17 14.4194 11 14.5001 9 14.5001C7 14.5001 1 14.4194 1 18.5001C1 19.8808 2.11929 21.0001 3.5 21.0001ZM13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z"
-              stroke="#000000"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <span>1300 members</span>
-        </div>
-        <div class={stylus.info}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M20.5 21C21.8807 21 23 19.8807 23 18.5C23 16.1726 21.0482 15.1988 19 14.7917M15 11C17.2091 11 19 9.20914 19 7C19 4.79086 17.2091 3 15 3M3.5 21.0001H14.5C15.8807 21.0001 17 19.8808 17 18.5001C17 14.4194 11 14.5001 9 14.5001C7 14.5001 1 14.4194 1 18.5001C1 19.8808 2.11929 21.0001 3.5 21.0001ZM13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z"
-              stroke="#000000"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <span>fees</span>
-        </div>
-        <div class={stylus.social}>
-          <h5>Find us also at:</h5>
-          <div class={stylus.links}>
-            {community.groups?.map((g, i) => (
-              <a class={stylus.link} target="_blank" key={i} href={g.url}>
-                {getIcon(g.type)}
-              </a>
-            ))}
-          </div>
-        </div>
         <div class={stylus.slider}>
           {sliderLinks.map((link, index) => (
             <span

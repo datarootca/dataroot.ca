@@ -15,14 +15,14 @@
     border-color 0.15s ease-in-out;
 }
 .active::after {
-  background: #4128e9;
+  background: rgb(219, 0, 0);
   border-radius: 50rem 0;
   bottom: 0;
   content: "";
   height: 4px;
   left: 3rem;
   position: absolute;
-  width: 60%;
+  width: 25%;
 }
 
 .logo {
@@ -43,21 +43,23 @@
   padding-left: var(--bs-gutter-x, 1.875rem);
   padding-right: var(--bs-gutter-x, 1.875rem);
   width: 100%;
+  position: sticky;
   position: -webkit-sticky;
+  top: 0;
+  z-index: 1020;
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   background: hsla(0, 0%, 100%, 0.7);
   overflow-x: hidden;
-  position: sticky;
   top: 0;
   z-index: 1020;
   align-items: center;
+  border-bottom: 2px solid rgba(175, 196, 215, 0.5);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding-bottom: 1rem;
-  padding-top: 1rem;
-  position: relative;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
 }
 
 .header ul {

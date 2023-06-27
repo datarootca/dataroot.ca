@@ -47,35 +47,6 @@ main {
   justify-content: space-between;
 }
 
-@media (min-width: 768px) {
-  .card {
-    padding: 1.5rem;
-  }
-}
-@media (min-width: 1200px) {
-  .card {
-    padding: 2rem;
-  }
-}
-@media (min-width: 1460px) {
-  .card {
-    padding: 2.5rem;
-  }
-}
-.card {
-  display: flex;
-  flex-direction: -var(--direction, column);
-  position: relative;
-  background-color: var(--bg, #fae6db);
-  padding: 1.5rem;
-}
-.card h2 {
-  color: #11032b;
-  font-weight: 800;
-  line-height: 1.2;
-  margin-bottom: 0.5rem;
-  margin-top: 0;
-}
 main .base {
   display: flex;
   flex: 1;
