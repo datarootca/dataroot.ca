@@ -127,7 +127,7 @@ body {
   --bs-gray-800: #4f4d54;
   --bs-gray-900: #11032b;
   --bs-primary: #4128e9;
-  --bs-secondary: #eef1ff;
+  --bg-secondary: rgb(219, 0, 0);
   --bs-success: #4bc287;
   --bs-warning: #ffda54;
   --bs-danger: #f3352c;

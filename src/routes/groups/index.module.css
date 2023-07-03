@@ -1,3 +1,14 @@
+.hero {
+  display: flex;
+  align-items: center;
+  padding-top: 24px;
+}
+.hero h2 {
+  margin: 0;
+}
+.city {
+  padding-left: 8px;
+}
 .author {
   margin: 4px 0;
   font-weight: 600;
