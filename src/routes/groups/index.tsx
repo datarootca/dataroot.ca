@@ -19,7 +19,7 @@ export interface IGroup {
 }
 export const useGroupsLoader = routeLoader$(async (): Promise<IGroup[]> => {
   const groupQuery = await db.query<IGroup>(
-    `SELECT g.name,g.members,g.slug,g.img,g.organizer,g.groupid,c.slug AS cityslug,c.name AS cityname,s.symbol AS statesymbol FROM"group" g LEFT JOIN city c USING(cityid)LEFT JOIN state s USING(stateid)`
+    `SELECT g.name,g.members,g.slug,g.photo_link as img,g.organizer,g.groupid,c.slug AS cityslug,c.name AS cityname,s.symbol AS statesymbol FROM"group" g LEFT JOIN city c USING(cityid)LEFT JOIN state s USING(stateid)`
   );
 
   const eventQuery = await db.query<{
