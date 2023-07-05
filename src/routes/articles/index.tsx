@@ -8,13 +8,13 @@ export interface IArticle {
   author: string;
   link: string;
   description: string;
-  img: string;
+  highres_link: string;
   time_m: string;
   publish_at: string;
 }
 export const useArticleLoader = routeLoader$(async (): Promise<IArticle[]> => {
   const groupQuery = await db.query<IArticle>(
-    `select title,description,publish_at,time_m,img,source,link,author from article;`
+    `select title,description,publish_at,time_m,highres_link,source,link,author from article order by publish_at desc;`
   );
 
   return groupQuery.rows;
@@ -65,7 +65,7 @@ export default component$(() => {
                 </a>
               </div>
               <div class={stylus.img}>
-                <img class={stylus.img} src={article.img} alt="" />
+                <img class={stylus.img} src={article.highres_link} alt="" />
               </div>
             </div>
           ))}

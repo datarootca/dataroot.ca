@@ -1,9 +1,35 @@
 import { component$ } from "@builder.io/qwik";
 import stylus from "./index.module.css";
 import styles from "./index.module.css";
+import db from "../../database";
 import Card from "~/components/card";
+import { DocumentHead, routeLoader$ } from "@builder.io/qwik-city";
 import List from "~/components/list";
+export interface IEvent {
+  eventid: number;
+  name: string;
+  group_slug: string;
+  group_name: string;
+  in_person: boolean;
+  location: string;
+  is_online: boolean;
+  img: string;
+  link: string;
+  yes_rsvp_count: number;
+  publish_at: string;
+  highres_link: string;
+  rsvp_limit: string;
+  time: Date,
+}
+export const useEventLoader = routeLoader$(async (): Promise<IEvent[]> => {
+  const eventQuery = await db.query<IEvent>(
+    `select e.eventid,e."time",COALESCE(e.highres_link,g.highres_link) as highres_link,e.name,g.name as group_name,g.slug as group_slug,e.in_person,e.location,e.is_online,e.link,e.yes_rsvp_count,e.rsvp_limit FROM event e
+join "group" g using(groupid)`
+  );
+  return eventQuery.rows;
+});
 export default component$(() => {
+    const eventItems = useEventLoader();
   return (
     <>
       <section class="container">
@@ -42,66 +68,22 @@ export default component$(() => {
       </section>
       <section class="container">
         <List>
+          {eventItems.value.map((event,index) => (
+
           <Card
-            title="Výstava pohledy berlínský stážistky "
-            subtitle="TUES, 27 JUN AT 08:00 UTC+02"
-            href="/events"
-            src="https://dama-vancouver.org/resources/Pictures/01008_201809_AlbertNormandin_False_CreekVancouverDowntownCityAerial_a589f0f4-e991-4c10-86c3-0f13ebeb927c.jpg"
+          key={index}
+            title={event.name}
+            subtitle={event.time.toUTCString()}
+            href={event.link}
+            src={event.highres_link}
           >
-            lokace
+          {event.location}
             <div q:slot="footer">
-              <div>37 going · 7 rsvp</div>
-              <div>online · person</div>
+              <div>{event.yes_rsvp_count} going · {event.rsvp_limit} rsvp</div>
+              <div>{event.is_online ? 'online'  :''}{event.in_person ? (event.is_online ? ' · ' : '') + 'person' : ''}</div>
             </div>
           </Card>
-          <Card
-            title="Výstava pohledy berlínský stážistky "
-            subtitle="TUES, 27 JUN AT 08:00 UTC+02"
-            href="/events"
-            src="https://dama-vancouver.org/resources/Pictures/01008_201809_AlbertNormandin_False_CreekVancouverDowntownCityAerial_a589f0f4-e991-4c10-86c3-0f13ebeb927c.jpg"
-          >
-            lokace
-            <div q:slot="footer">
-              <div>37 going · 7 rsvp</div>
-              <div>online · person</div>
-            </div>
-          </Card>
-          <Card
-            title="Výstava pohledy berlínský stážistky "
-            subtitle="TUES, 27 JUN AT 08:00 UTC+02"
-            href="/events"
-            src="https://dama-vancouver.org/resources/Pictures/01008_201809_AlbertNormandin_False_CreekVancouverDowntownCityAerial_a589f0f4-e991-4c10-86c3-0f13ebeb927c.jpg"
-          >
-            lokace
-            <div q:slot="footer">
-              <div>37 going · 7 rsvp</div>
-              <div>online · person</div>
-            </div>
-          </Card>
-          <Card
-            title="Výstava pohledy berlínský stážistky "
-            subtitle="TUES, 27 JUN AT 08:00 UTC+02"
-            href="/events"
-            src="https://dama-vancouver.org/resources/Pictures/01008_201809_AlbertNormandin_False_CreekVancouverDowntownCityAerial_a589f0f4-e991-4c10-86c3-0f13ebeb927c.jpg"
-          >
-            lokace
-            <div q:slot="footer">
-              <div>37 going · 7 rsvp</div>
-              <div>online · person</div>
-            </div>
-          </Card>
-          <Card
-            title="Výstava pohledy berlínský stážistky "
-            subtitle="TUES, 27 JUN AT 08:00 UTC+02"
-            href="/events"
-            src="https://dama-vancouver.org/resources/Pictures/01008_201809_AlbertNormandin_False_CreekVancouverDowntownCityAerial_a589f0f4-e991-4c10-86c3-0f13ebeb927c.jpg"
-          >
-            lokace
-            <div q:slot="footer">
-              <div>37 going · 7 rsvp</div>
-              <div>online · person</div>
-            </div>
-          </Card>
+          ))}
         </List>
       </section>
     </>
