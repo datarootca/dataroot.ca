@@ -1,9 +1,9 @@
 import { component$ } from "@builder.io/qwik";
 import stylus from "./index.module.css";
-import { useCityLoader } from "./layout";
+import { useEventLoader } from "./layout";
 
 export default component$(() => {
-  const { value: community } = useCityLoader();
+  const { value: community } = useEventLoader();
   if (!community) {
     return <p>Sorry, looks like community doesnt exists.</p>;
   }

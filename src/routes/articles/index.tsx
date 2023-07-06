@@ -1,7 +1,13 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, $, type HTMLAttributes, useStore, useSignal, useVisibleTask$ } from "@builder.io/qwik";
+import { type DocumentHead, routeLoader$, server$ } from "@builder.io/qwik-city";
+import type { VirtualItem } from "@tanstack/virtual-core";
+import { VirtualScrollContainer } from "~/components/virtual-scroll/virtual-scroll";
 import stylus from "./index.module.css";
-import { DocumentHead, routeLoader$ } from "@builder.io/qwik-city";
 import db from "../../database";
+import Spinner from "~/components/spinner";
+
+export const thingy = { value: 0 };
+
 export interface IArticle {
   articleid: number;
   title: string;
@@ -11,14 +17,8 @@ export interface IArticle {
   highres_link: string;
   time_m: string;
   publish_at: string;
+  source: string;
 }
-export const useArticleLoader = routeLoader$(async (): Promise<IArticle[]> => {
-  const groupQuery = await db.query<IArticle>(
-    `select title,description,publish_at,time_m,highres_link,source,link,author from article order by publish_at desc;`
-  );
-
-  return groupQuery.rows;
-});
 function getSourceIcon() {
   return (
     <svg
@@ -39,14 +39,64 @@ function getSourceIcon() {
     </svg>
   );
 }
+
+export const getArticles = server$(
+  async ({ rangeStart }: { rangeStart: number }) => {
+    const offset = rangeStart
+    const per_page = 15;
+    const groupQuery = await db.query<IArticle>(
+            `select title,description,publish_at,time_m,highres_link,source,link,author from article order by publish_at desc 
+            limit ${per_page} OFFSET ${offset};`
+            );
+    return {
+          startIndex: rangeStart,
+        items: groupQuery.rows,
+    }
+  }
+);
+export const useInitialDataLoader = routeLoader$(() => {
+  return getArticles({ rangeStart: 0 });
+});
+
 export default component$(() => {
-  const articles = useArticleLoader();
+  const initialData = useInitialDataLoader();
+  const articles = useStore(initialData.value.items ?? [])
+  const loadingMore = useSignal(false);
+
+
+  useVisibleTask$(({ cleanup }) => {
+    const nearBottom = async () => {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
+        !loadingMore.value
+      ) {
+        loadingMore.value = true
+
+        const newArticles = await getArticles({ rangeStart: articles.length })
+
+        if (newArticles?.items?.length === 0) {
+          window.removeEventListener('scroll', nearBottom)
+          loadingMore.value = false
+          return
+        }
+
+        articles.push(...newArticles.items)
+
+        // small timeout to prevent multiple requests
+        setTimeout(() => (loadingMore.value = false), 500)
+      }
+    }
+
+    window.addEventListener('scroll', nearBottom)
+
+    cleanup(() => window.removeEventListener('scroll', nearBottom))
+  });
   return (
     <div class={[stylus.container, "container"]}>
       <h2>Articles</h2>
       <div class={[stylus.articles]}>
         <section class={stylus.content}>
-          {articles.value.map((article, index) => (
+          {articles.map((article, index) => (
             <div key={index} class={stylus.article}>
               <div class={stylus.articleContainer}>
                 <div class={stylus.header}>
@@ -69,6 +119,13 @@ export default component$(() => {
               </div>
             </div>
           ))}
+          {loadingMore.value ? (
+          <div class="mt-14">
+            <Spinner />
+          </div>
+        ) : (
+          <div class="mt-14 h-2 w-2 self-center rounded-full bg-stone-200 dark:bg-slate-600" />
+        )}
         </section>
         <aside class={stylus.sidebar}>
           <div class={stylus.sidebarSlider}>
@@ -86,6 +143,6 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-  title: "Dataroot - Where good ideas find you.",
+  title: "Find and Explore Data's Best Resources - Dataroot",
   meta: [],
 };

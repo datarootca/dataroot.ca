@@ -43,6 +43,7 @@
     "vite-tsconfig-paths": "4.2.0"
   },
   "dependencies": {
+    "@tanstack/virtual-core": "^3.0.0-beta.54",
     "@types/pg": "^8.10.2",
     "pg": "^8.11.0"
   }

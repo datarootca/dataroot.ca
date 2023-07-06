@@ -97,6 +97,7 @@
   padding-left: 8px;
 }
 .articleContainer {
+    overflow: hidden;
   margin-right: 20px;
 }
 .img {
@@ -104,7 +105,7 @@
   cursor: pointer;
   height: 134px;
   fill: rgb(25, 25, 25);
-  background-color: red;
+  background-color: var(--cc-text);
   vertical-align: middle;
   box-sizing: inherit;
 }

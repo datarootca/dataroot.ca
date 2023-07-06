@@ -1,60 +1,34 @@
 import { component$, Slot } from "@builder.io/qwik";
 import stylus from "./index.module.css";
 import { Link, routeLoader$, useLocation } from "@builder.io/qwik-city";
-const cities = [
-  {
-    name: "DAMA",
-    slug: "dama",
-    description:
-      "Data Management is the development of architectures, policies, practices and procedures to manage the data life cycle. (DAMA International)/” In most organizations, systems and data evolve more organically than data management professionals would like. Particularly, large organizations, various projects and initiatives, mergers and acquisitions, and other business activities result in multiple systems executing essentially the same functions, isolated from each other. These conditions inevitably lead to inconsistencies in data structure and data values between systems. This variability increases costs and risks. Both can be reduced through the management of Master Data and Reference Data. ” DAMA-DMBoK",
-    img: "https://dama-vancouver.org/resources/Pictures/01008_201809_AlbertNormandin_False_CreekVancouverDowntownCityAerial_a589f0f4-e991-4c10-86c3-0f13ebeb927c.jpg",
-    organizator: {
-      name: "Gordon Hamilton",
-      img: "test",
-    },
-    groups: [
-      {
-        type: "linkedin",
-        url: " https://www.linkedin.com/company/learning-data-science/",
-      },
-    ],
-  },
-  {
-    name: "Data science group",
-    slug: "data-science-group",
-    img: "https://secure.meetupstatic.com/photos/event/9/5/1/6/clean_471398166.jpeg",
-    description: `Welcome to the Data Science LEARNING Group!
-      A meetup for people who want to LEARN Data Science as a group. Taking online courses together. Reading books together. Etc. Also with some hands-on workshops taught by 'experts'. It's also a place where you can ask others questions and for help.`,
-    url: "https://vantech.herokuapp.com/",
-    organizator: {
-      name: "Tomas Kudlicka",
-      img: "test",
-    },
-    groups: [
-      {
-        type: "meetup",
-        url: " http://www.meetup.com/LearnDataScience/",
-      },
-      {
-        type: "slack",
-        url: " https://vantech.herokuapp.com/",
-      },
-      {
-        type: "discord",
-        url: "https://discord.gg/EpJPUks",
-      },
-      {
-        type: "twitter",
-        url: "@LearnDSML",
-      },
-      {
-        type: "linkedin",
-        url: " https://www.linkedin.com/company/learning-data-science/",
-      },
-    ],
-    events: [],
-  },
-];
+import db from "../../database";
+export interface IGroup {
+  groupid: number;
+  name: string;
+  slug: string;
+  description: string;
+  highres_link: string;
+  members: number;
+  active: boolean;
+  private: boolean;
+  city: string;
+  state: string;
+  organizer: string;
+  organizer_img_link: string;
+}
+export const useEventLoader = routeLoader$(async ({ params, status }): Promise<IGroup | undefined> => {
+  const eventQuery = await db.query<IGroup>(
+`SELECT g.groupid,g.name,g.slug,g.description,g.highres_link,g.active,g.members,g.private,c.name AS city,s.symbol as state,g.organizer FROM"group" g JOIN city c USING(cityid)JOIN state s USING(stateid)
+where g.slug = $1::text;`,[params.community]
+  );
+
+  const item = eventQuery.rows[0]
+  if (!item) {
+    status(404);
+    return ;
+  }
+  return item;
+});
 function getIcon(provider: string) {
   if (provider === "slack") {
     return (
@@ -203,18 +177,9 @@ function getIcon(provider: string) {
   );
 }
 
-export const useCityLoader = routeLoader$(({ params, status }) => {
-  const index = cities.findIndex((c) => c.slug === params.community);
-  if (index === -1) {
-    status(404);
-    return null;
-  }
-
-  return cities[index];
-});
 
 export default component$(() => {
-  const { value: community } = useCityLoader();
+  const { value: community } = useEventLoader();
   if (!community) {
     return <p>Sorry, looks like community doesnt exists.</p>;
   }
@@ -240,12 +205,34 @@ export default component$(() => {
       uri: "past",
     },
   ];
+    const groups = [
+      {
+        type: "meetup",
+        url: " http://www.meetup.com/LearnDataScience/",
+      },
+      {
+        type: "slack",
+        url: " https://vantech.herokuapp.com/",
+      },
+      {
+        type: "discord",
+        url: "https://discord.gg/EpJPUks",
+      },
+      {
+        type: "twitter",
+        url: "@LearnDSML",
+      },
+      {
+        type: "linkedin",
+        url: " https://www.linkedin.com/company/learning-data-science/",
+      },
+    ];
   return (
     <>
       <section class={stylus.heroSection}>
         <div class={stylus.imageWrapper}>
           <picture>
-            <img class={stylus.img} src={community.img} alt={community.name} />
+            <img class={stylus.img} src={community.highres_link} alt={community.name} />
           </picture>
         </div>
         <div class="container">
@@ -254,13 +241,13 @@ export default component$(() => {
             <div class={stylus.titleWrapper}>
               <div class={stylus.heroWrapper}>
                 <h2 class={stylus.hero}>{community.name.toUpperCase()}</h2>
-                <div class={[stylus.badge, stylus.badgeActive]}>Active</div>
+                <div class={[stylus.badge, stylus.badgeActive]}>{community.active ? 'ACTIVE' : 'UNACTIVE'}</div>
               </div>
               <div class={stylus.subtitle}>
-                <span class={stylus.author}>{community.organizator.name}</span>
+                <span class={stylus.author}>{community.organizer}</span>
 
                 <span class={stylus.dot}></span>
-                <span class={stylus.access}>PUBLIC</span>
+                <span class={stylus.access}>{community.private ? 'PRIVATE' : 'PUBLIC'}</span>
               </div>
             </div>
           </div>
@@ -277,7 +264,7 @@ export default component$(() => {
               />
               <circle cx="256" cy="192" r="48" class={stylus.circle} />
             </svg>
-            <span>Vancouver,BC</span>
+            <span>{community.city},{community.state.toUpperCase()}</span>
           </div>
           <div class={stylus.info}>
             <svg
@@ -295,7 +282,7 @@ export default component$(() => {
                 stroke-linejoin="round"
               />
             </svg>
-            <span>1300 members</span>
+            <span>{community.members} members</span>
           </div>
           <div class={stylus.info}>
             <svg
@@ -313,12 +300,12 @@ export default component$(() => {
                 stroke-linejoin="round"
               />
             </svg>
-            <span>fees</span>
+            <span>pay fee</span>
           </div>
           <div class={stylus.social}>
             <h5>Find us also at:</h5>
             <div class={stylus.links}>
-              {community.groups?.map((g, i) => (
+              {groups?.map((g, i) => (
                 <a class={stylus.link} target="_blank" key={i} href={g.url}>
                   {getIcon(g.type)}
                 </a>

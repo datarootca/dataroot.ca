@@ -1,10 +1,10 @@
-import { component$ } from "@builder.io/qwik";
+import { component$,$, useStore, useTask$ } from "@builder.io/qwik";
 import stylus from "./index.module.css";
 import styles from "./index.module.css";
-import db from "../../database";
 import Card from "~/components/card";
-import { DocumentHead, routeLoader$ } from "@builder.io/qwik-city";
+import { routeLoader$,server$, useLocation } from "@builder.io/qwik-city";
 import List from "~/components/list";
+import db from "../../database";
 export interface IEvent {
   eventid: number;
   name: string;
@@ -19,23 +19,155 @@ export interface IEvent {
   publish_at: string;
   highres_link: string;
   rsvp_limit: string;
-  time: Date,
+  time: Date;
 }
-export const useEventLoader = routeLoader$(async (): Promise<IEvent[]> => {
-  const eventQuery = await db.query<IEvent>(
-    `select e.eventid,e."time",COALESCE(e.highres_link,g.highres_link) as highres_link,e.name,g.name as group_name,g.slug as group_slug,e.in_person,e.location,e.is_online,e.link,e.yes_rsvp_count,e.rsvp_limit FROM event e
-join "group" g using(groupid)`
-  );
-  return eventQuery.rows;
+/**
+ * Binds query params from object
+ *
+ * @example
+ * // Result for this command would be:
+ * // {
+ * //   text: 'INSERT INTO foo (id, name) VALUES ($1, $2)'
+ * //   values: [1, 'kek']
+ * // }
+ * let {text, values} = bindQuery('INSERT INTO foo (id, name) VALUES (:id, :user_name)', {id: 1, user_name: 'kek'});
+ *
+ * // Somewhere in db-related code...
+ * pgClient.query(text, values).then(() => ...);
+ *
+ * @param  {String} queryString Query pattern with values inserted
+ * @param  {Object} replaceObj  Object with replacements
+ * @param  {Object} startIndex  Index to start with
+ * @return {Object}             Object with final query and it's value bindings
+ */
+function bindQuery(queryString, replaceObj, startIndex = 1) {
+
+    if (!replaceObj) {
+        throw new Error('You MUST pass replaceObj as second argument');
+    }
+
+    // Initialize all the variables in here
+    let [binds, values, index] = [new Map, [], startIndex];
+
+    // Using String.prototype.replace replace all the params in query pattern
+    let text = queryString.replace(/[:]?:([a-zA-Z_]+)/g, (search, param) => {
+        // Return values that begin as typecast
+        if (search.slice(0, 2) === '::') {
+            return search;
+        }
+
+        // If we already set this parameter
+        if (binds.get(param) !== undefined) {
+            return '$' + binds.get(param);
+        }
+
+        // In other case push parameter into binds and update values array
+        binds.set(param, index);
+        values.push(replaceObj[param]);
+        return '$' + index++;
+    });
+
+    return {text, values};
+}
+export const getEvents = server$(
+  async (
+  offset: number,
+  filter: IFilter) => {
+    const per_page = 15;
+   const filters = []; 
+   const bindings = {}; 
+   if(filter.date) {
+       filters.push(filter.date);
+       bindings.in_person = filter.type;
+   }
+   if(typeof filter.type === 'boolean') {
+       bindings.in_person = filter.type;
+       filters.push('in_person = :in_person');
+   }
+   if(filter.distance) {
+       bindings.in_person = filter.type;
+       filters.push(filter.date);
+   }
+   console.log(bindings);
+
+const bindingFilter ={ limit: per_page,
+offset,
+...bindings,
+}
+
+   console.log(bindingFilter);
+const query = `select e.eventid,e."time",COALESCE(e.highres_link,g.highres_link) as highres_link,e.name,g.name as group_name,g.slug as group_slug,e.in_person,e.location,e.is_online,e.link,e.yes_rsvp_count,e.rsvp_limit FROM event e
+join "group" g using(groupid) ${filters.length != 0 ? `where ${filters.join(' ')}` : ''} limit :limit offset :offset`;
+    const preparedQuery = bindQuery(query,bindingFilter);
+    console.log(bindingFilter.text);
+    const groupQuery = await db.query<IEvent>(
+    preparedQuery.text
+,preparedQuery.values);
+    return groupQuery.rows
+    });
+interface IFilter {
+    type: boolean | null,
+    distance: string | null,
+    date: string | null,
+    }
+export const useEventLoader = routeLoader$(async ({ url }): Promise<IEvent[]> => {
+    let type = url.searchParams.get('type');
+    if(type  === 'person') {
+        type = true;
+    }
+    if(type  === 'online') {
+        type = false;
+    }
+    const distance = url.searchParams.get('distance');
+    const date = url.searchParams.get('date');
+  return getEvents(0,{
+      type,
+      distance,
+      date,
+  });
 });
+export const handleClick = $(
+        async() => {
+
+const type = 'person';
+ window.history.pushState(
+		'',
+		'',
+		`${window.location.origin}${window.location.pathname}?${type ? `type=${type}` : ''}`
+	);
+        }
+)
 export default component$(() => {
-    const eventItems = useEventLoader();
+    const location = useLocation();
+    const type = location.url.searchParams.get('type');
+    const distance = location.url.searchParams.get('distance');
+    const date = location.url.searchParams.get('date');
+    
+  const eventItems = useEventLoader();
+  const state = useStore<{
+		location: string;
+		search: string;
+		inPerson: boolean | null;
+		categoryIds: string[];
+		distance: string | null;
+		date: string | null;
+	}>({
+        location: '',
+        search: '',
+        inPerson: type == null ? null : Boolean(type) ,
+        categoryIds: [],
+        distance: distance,
+        date: date,
+	});
   return (
     <>
       <section class="container">
         <div class={styles.hero}>
           <h2>Events</h2>
         </div>
+          <button  onClick$={handleClick}>
+          inPerson
+          </button>
         <div class={stylus.search}>
           <div class={stylus.searchInput}>
             <input placeholder="search" type="text" />
@@ -43,7 +175,7 @@ export default component$(() => {
           <div class={stylus.locationInput}>
             <input type="texst" placeholder="location" />
           </div>
-          <button class={styles.searchButton}>
+          <button class={styles.searchButton} onClick$={server$(handleClick)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -68,21 +200,27 @@ export default component$(() => {
       </section>
       <section class="container">
         <List>
-          {eventItems.value.map((event,index) => (
-
-          <Card
-          key={index}
-            title={event.name}
-            subtitle={event.time.toUTCString()}
-            href={event.link}
-            src={event.highres_link}
-          >
-          {event.location}
-            <div q:slot="footer">
-              <div>{event.yes_rsvp_count} going · {event.rsvp_limit} rsvp</div>
-              <div>{event.is_online ? 'online'  :''}{event.in_person ? (event.is_online ? ' · ' : '') + 'person' : ''}</div>
-            </div>
-          </Card>
+          {eventItems.value.map((event, index) => (
+            <Card
+              key={index}
+              title={event.name}
+              subtitle={event.time.toUTCString()}
+              href={event.link}
+              src={event.highres_link}
+            >
+              {event.location}
+              <div q:slot="footer">
+                <div>
+                  {event.yes_rsvp_count} going · {event.rsvp_limit} rsvp
+                </div>
+                <div>
+                  {event.is_online ? "online" : ""}
+                  {event.in_person
+                    ? (event.is_online ? " · " : "") + "person"
+                    : ""}
+                </div>
+              </div>
+            </Card>
           ))}
         </List>
       </section>
