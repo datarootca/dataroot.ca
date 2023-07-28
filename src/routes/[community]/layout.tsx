@@ -4,8 +4,7 @@ import { Link, routeLoader$, useLocation } from "@builder.io/qwik-city";
 import { fetchDetailGroup } from "~/app/api";
 
 export const useInitialDataLoder = routeLoader$(
-  async ({ status,params }): Promise<ApiGroupDetailedResponse | undefined> => {
-
+  async ({ status, params }): Promise<ApiGroupDetailedResponse | undefined> => {
     const item = await fetchDetailGroup(params.community);
     if (!item) {
       status(404);
@@ -244,7 +243,7 @@ export default component$(() => {
               </div>
             </div>
           </div>
-      
+
           <div class={stylus.infoWrapper}>
             <div class={stylus.info}>
               <svg
@@ -300,7 +299,7 @@ export default component$(() => {
               <span>pay fee</span>
             </div>
           </div>
-          
+
           <div class={stylus.social}>
             <h5>Find us also at:</h5>
             <div class={stylus.links}>

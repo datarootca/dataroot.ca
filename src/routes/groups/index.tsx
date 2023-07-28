@@ -6,8 +6,6 @@ import Card from "~/components/card";
 import List from "~/components/list";
 import { fetchGroups } from "~/app/api";
 
-
-
 export const useGroupsLoader = routeLoader$(async () => {
   return await fetchGroups(1);
 });

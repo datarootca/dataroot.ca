@@ -1,10 +1,10 @@
 export {};
 
 declare global {
-    /**
- * The IState interface represents a single state record from the 'state' table.
- */
-export interface IState {
+  /**
+   * The IState interface represents a single state record from the 'state' table.
+   */
+  export interface IState {
     /** Primary key */
     stateid: string;
     /** State name */
@@ -25,26 +25,26 @@ export interface IState {
     thumb_link: string | null;
   }
 
-        /**
-     * The ICity interface represents a single city record from the 'city' table.
-     * This interface describes the structure of the city data that will be returned from the API.
-     */
-    interface ICity {
-        /** City name. This is a unique name of the city. */
-        name: string;
-        
-        /** URL slug. This is a unique URL-friendly version of the city name. */
-        slug: string;
-        
-        /** State Symbol. **/
-        state_symbol: string;
-        
-        state_name: string;
-    }
-/**
- * The IEvent interface represents a single event record from the 'event' table.
- */
-export interface IEvent {
+  /**
+   * The ICity interface represents a single city record from the 'city' table.
+   * This interface describes the structure of the city data that will be returned from the API.
+   */
+  interface ICity {
+    /** City name. This is a unique name of the city. */
+    name: string;
+
+    /** URL slug. This is a unique URL-friendly version of the city name. */
+    slug: string;
+
+    /** State Symbol. **/
+    state_symbol: string;
+
+    state_name: string;
+  }
+  /**
+   * The IEvent interface represents a single event record from the 'event' table.
+   */
+  export interface IEvent {
     /** Primary key */
     eventid: string;
     /** Event title */
@@ -85,26 +85,26 @@ export interface IEvent {
     created_at: string;
     /** Last update timestamp */
     updated_at: string | null;
-}
+  }
 
-/**
- * The IGroup interface represents a single group record from the 'group' table.
- */
- interface IGroup {
-  group_name: string,
-  group_highres_link: string,
-  group_slug: string,
-  city_name: string,
-  state_symbol: string,
-  city_slug: string,
-  organizer: string,
-  event_count: number,
-  members: number,
-}
   /**
- * The IOrganizer interface represents a single organizer record from the 'organizer' table.
- */
- interface IOrganizer {
+   * The IGroup interface represents a single group record from the 'group' table.
+   */
+  interface IGroup {
+    group_name: string;
+    group_highres_link: string;
+    group_slug: string;
+    city_name: string;
+    state_symbol: string;
+    city_slug: string;
+    organizer: string;
+    event_count: number;
+    members: number;
+  }
+  /**
+   * The IOrganizer interface represents a single organizer record from the 'organizer' table.
+   */
+  interface IOrganizer {
     /** Primary key */
     organizerid: string;
     /** Organizer's first name */
@@ -125,12 +125,11 @@ export interface IEvent {
     photo_link: string | null;
     /** Thumbnail link */
     thumb_link: string | null;
-  
- }
+  }
   /**
- * The IArticle interface represents a single article record from the 'article' table.
- */
- interface IArticle {
+   * The IArticle interface represents a single article record from the 'article' table.
+   */
+  interface IArticle {
     /** Primary key */
     articleid: string;
     /** External identifier */
@@ -162,54 +161,53 @@ export interface IEvent {
     /** Last update timestamp */
     updated_at: string | null;
   }
-  
+
   interface RequestFindEventFilter {
-    name?: String
+    name?: String;
     in_person?: boolean;
     is_online?: boolean;
     group_slug?: string;
     location?: string;
     has_fee?: boolean;
     rsvp_limit?: number;
-    time_frame?: "Custom" | 'Today' | 'ThisWeek' | 'ThisMonth';
+    time_frame?: "Custom" | "Today" | "ThisWeek" | "ThisMonth";
     start_date?: Date;
     end_date?: Date;
     status?: string;
     page?: number;
     page_size?: number;
-}
+  }
 
   type ApiGroupDetailedResponse = {
     name: string;
-    description: string,
-    slug: string,
-    active: bool,
-    private: bool,
-    members: string,
-    city_name: string,
-    state_symbol: string,
-    organizer: string,
-    highres_link?: string,
-    photo_link?: string,
-    thumb_link?: string,
-    created_at: string,
-    updated_at?: string,
+    description: string;
+    slug: string;
+    active: bool;
+    private: bool;
+    members: string;
+    city_name: string;
+    state_symbol: string;
+    organizer: string;
+    highres_link?: string;
+    photo_link?: string;
+    thumb_link?: string;
+    created_at: string;
+    updated_at?: string;
+  };
+
+  interface IApiResponse<T> {
+    meta: {
+      count: number;
+      page: number;
+      pages: number;
+    };
+    records: T[];
   }
 
-      
-      interface IApiResponse<T> {
-        meta: {
-          count: number;
-          page: number;
-          pages: number;
-        };
-        records: T[];
-      }
-
-    type ArticleApiResponse = IApiResponse<IArticle>;
-    type EventApiResponse = IApiResponse<IEvent>;
-    type GroupApiResponse = IApiResponse<IGroup>;
-    type OrganizerApiResponse = IApiResponse<IOrganizer>;
-    type StateApiResponse = IApiResponse<IState>;
-    type CityApiResponse = IApiResponse<ICity>;
+  type ArticleApiResponse = IApiResponse<IArticle>;
+  type EventApiResponse = IApiResponse<IEvent>;
+  type GroupApiResponse = IApiResponse<IGroup>;
+  type OrganizerApiResponse = IApiResponse<IOrganizer>;
+  type StateApiResponse = IApiResponse<IState>;
+  type CityApiResponse = IApiResponse<ICity>;
 }

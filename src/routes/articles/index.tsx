@@ -16,7 +16,7 @@ import { fetchArticles } from "~/app/api";
 export const thingy = { value: 0 };
 
 function getSourceIcon(provider: string) {
-  if(provider === 'meetup') {
+  if (provider === "meetup") {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -56,10 +56,9 @@ function getSourceIcon(provider: string) {
   );
 }
 
-export const getArticles = server$(
-  async ({ page }: { page: number }) => {
-      return await fetchArticles(page)
-  });
+export const getArticles = server$(async ({ page }: { page: number }) => {
+  return await fetchArticles(page);
+});
 export const useInitialDataLoader = routeLoader$(() => {
   return getArticles({ page: 1 });
 });
@@ -127,7 +126,11 @@ export default component$(() => {
                 </a>
               </div>
               <div class={stylus.img}>
-                <img class={stylus.img} src={article.highres_link || ''} alt="" />
+                <img
+                  class={stylus.img}
+                  src={article.highres_link || ""}
+                  alt=""
+                />
               </div>
             </div>
           ))}
