@@ -1,9 +1,24 @@
 import { component$ } from "@builder.io/qwik";
 import stylus from "./index.module.css";
-import { useEventLoader } from "./layout";
+import { useInitialDataLoder } from "./layout";
+import { routeLoader$ } from "@builder.io/qwik-city";
+export const useRecentEventLoader = routeLoader$(
+  async ({ status }): Promise<IEvent | undefined> => {
+    //`SELECT e.eventid,e.description,e."time",COALESCE(e.highres_link,g.highres_link)AS highres_link,e.name,g.name AS group_name,g.slug AS group_slug,e.in_person,e.location,e.is_online,e.link,e.yes_rsvp_count,e.rsvp_limit FROM event e JOIN"group" g USING(groupid)
+    //where g.slug = $1::text and e.time>=now()order by e.time desc limit 1`,
+
+    const item = null;
+    if (!item) {
+      status(404);
+      return;
+    }
+    return item;
+  }
+);
 
 export default component$(() => {
-  const { value: community } = useEventLoader();
+  const { value: community } = useInitialDataLoder();
+  const recentEventSignal = useRecentEventLoader();
   if (!community) {
     return <p>Sorry, looks like community doesnt exists.</p>;
   }
@@ -17,7 +32,8 @@ export default component$(() => {
           </div>
         </div>
       </div>
-      <div class={stylus.cardWrapper}>
+      {recentEventSignal.value ? (
+        <div class={stylus.cardWrapper}>
         <h3>Upcoming event</h3>
         <div class={[stylus.card, "card", stylus.event]}>
           <div class={stylus.eventHeader}>
@@ -60,15 +76,18 @@ export default component$(() => {
                   <path d="M197.849,0C122.131,0,60.531,61.609,60.531,137.329c0,72.887,124.591,243.177,129.896,250.388l4.951,6.738   c0.579,0.792,1.501,1.255,2.471,1.255c0.985,0,1.901-0.463,2.486-1.255l4.948-6.738c5.308-7.211,129.896-177.501,129.896-250.388   C335.179,61.609,273.569,0,197.849,0z M197.849,88.138c27.13,0,49.191,22.062,49.191,49.191c0,27.115-22.062,49.191-49.191,49.191   c-27.114,0-49.191-22.076-49.191-49.191C148.658,110.2,170.734,88.138,197.849,88.138z" />
                 </g>
               </svg>
-              <span>Online</span>
+              {recentEventSignal.value.is_online ? (<span>online</span>) : ''}
+              {recentEventSignal.value.in_person ? (<span>person</span>) : ''}
             </div>
           </div>
           <div class={stylus.eventHero}>
-            <div class={stylus.eventTitle}>Name or lame</div>
-            <div class={stylus.eventDescription}>description</div>
+            <div class={stylus.eventTitle}>{recentEventSignal.value.name}</div>
+            <div class={stylus.eventDescription}>{recentEventSignal.value.description}</div>
           </div>
         </div>
       </div>
+      ): ''}
+      
       <div class={stylus.cardWrapper}>
         <h3>Related category</h3>
         <section class={stylus.relatedCategory}>

@@ -1,6 +1,7 @@
 {
   "name": "my-qwik-basic-starter",
   "description": "Demo App with Routing built-in (recommended)",
+  "license": "MIT",
   "engines": {
     "node": ">=15.0.0"
   },
@@ -17,10 +18,11 @@
     "fmt": "prettier --write .",
     "fmt.check": "prettier --check .",
     "lint": "eslint \"src/**/*.ts*\"",
+    "prepare": "husky install",
     "preview": "qwik build preview && vite preview --open",
+    "serve": "node server/entry.express",
     "start": "vite --open --mode ssr",
-    "qwik": "qwik",
-    "prepare": "husky install"
+    "qwik": "qwik"
   },
   "devDependencies": {
     "@builder.io/qwik": "^1.1.5",
@@ -41,10 +43,5 @@
     "vercel": "^29.1.1",
     "vite": "4.3.9",
     "vite-tsconfig-paths": "4.2.0"
-  },
-  "dependencies": {
-    "@tanstack/virtual-core": "^3.0.0-beta.54",
-    "@types/pg": "^8.10.2",
-    "pg": "^8.11.0"
   }
 }

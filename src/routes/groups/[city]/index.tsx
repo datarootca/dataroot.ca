@@ -1,101 +1,75 @@
 import { component$ } from "@builder.io/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
-import styles from "./index.module.css";
-import { Link } from "@builder.io/qwik-city";
-import db from "../../../database";
-export interface IGroup {
-  name: string;
-  description: string;
-  upcoming_event: number;
-  pasts_event: number;
-  members: number;
-  bg: string;
-  slug: string;
-}
+import styles from "../index.module.css";
 
-export const useCityLoader = routeLoader$(async ({ params, status }) => {
-  const cityQuery = await db.query<any>(
-    "select cityid,name from city where slug = $1::text",
-    [params.city]
-  );
-  const cityItem = cityQuery.rows[0];
-  if (!cityItem) {
+import Card from "~/components/card";
+import List from "~/components/list";
+import { fetchCityBySlug, fetchGroups } from "~/app/api";
+
+export const useGroupsLoader = routeLoader$(async ({ status,params }): Promise<{
+  city: ICity | null,
+  items: IGroup[]
+}> => {
+  console.log(params.city)
+  const cityItem = await fetchCityBySlug(params.city);
+  console.log(cityItem)
+  if(!cityItem) {
     status(404);
-    return null;
+    return {
+      city: null,
+      items: [],
+    }
   }
+  //  `SELECT g.name,g.members,g.slug,g.photo_link as img,g.organizer,g.groupid,c.slug AS cityslug,c.name AS cityname,s.symbol AS statesymbol FROM"group" g LEFT JOIN city c USING(cityid)LEFT JOIN state s USING(stateid)`
+  //  + `where g.cityid = $1::bigint`,
+ 
 
-  const groupQuery = await db.query<IGroup>(
-    "SELECT g.name,g.slug,g.bg," +
-      "count(e.eventid) as upcoming_event," +
-      "count(e.eventid) as pasts_event," +
-      "g.members " +
-      'FROM "group" g ' +
-      'LEFT JOIN "event" e ON e.groupid = g.groupid ' +
-      "WHERE g.cityid = $1::int " +
-      "GROUP BY g.name,g.slug,g.bg,g.members",
-    [cityItem.cityid]
-  );
+      //`SELECT e.groupid,count(e.eventid)AS event_count FROM"event" e WHERE e.groupid in(${groupQuery.rows
+      //  .map((g) => g.groupid)
+      //  .join(",")}) AND time>=now()GROUP BY e.groupid`
+  const groupItems = await fetchGroups(1,cityItem.slug);
 
   return {
-    cityItem,
-    groupItems: groupQuery.rows,
+    city: cityItem,
+    items: groupItems.records,
   };
 });
-
 export default component$(() => {
-  const { value } = useCityLoader();
-  if (!value) {
-    return <p>Sorry, looks like city doesnt exists.</p>;
+  const groupSignal = useGroupsLoader();
+  if(!groupSignal.value.city) {
+    return <>not found</>
   }
-  const { cityItem, groupItems } = value;
   return (
     <>
-      <h2 class="hero">{cityItem.name}</h2>
-      <div class={styles.content}>
-        {groupItems && groupItems.length !== 0
-          ? groupItems.map((com, i) => {
-              return (
-                <div key={i} style={{ "--bg": com.bg }} class={styles.card}>
-                  <Link href={com.slug}>
-                    <h2>{com.name}</h2>
-                  </Link>
-                  <div>{com.description}</div>
-                  <div class={styles.cardHeader}>
-                    <div>
-                      <div>Upcoming events</div>
-                      <h3>{com.upcoming_event || 0}</h3>
-                    </div>
-                    <div>
-                      <div>Members</div>
-                      <h3>{com.members || 0}</h3>
-                    </div>
+      <section class="container">
+        <div class={styles.hero}>
+          <h2>Groups</h2>
+          <div class={styles.city}>in {groupSignal.value.city.name}</div>
+        </div>
 
-                    <div>
-                      <div>Past events</div>
-                      <h3>{com.pasts_event || 0}</h3>
-                    </div>
-                  </div>
-                  <div>
-                    <button>sources</button>
-                    <button>sources</button>
-                    <button>sources</button>
-                    <button>sources</button>
-                  </div>
-                  <div>
-                    <button>#tags</button>
-                    <button>#tags</button>
-                    <button>#tags</button>
-                    <button>#tags</button>
-                  </div>
-
-                  {/*<picture>
-                            <img  src={'/img/' + p.img} alt={p.name} class={styles.img}/>
-                            </picture>*/}
+        <List>
+          {groupSignal.value.items.map((group, index) => {
+            return (
+              <Card
+                key={index}
+                src={group.group_highres_link}
+                href={"/" + group.group_slug}
+                subtitle={`${
+                  group.city_name
+                },${group.state_symbol.toUpperCase()}`}
+                subtitleHref={'/groups/' + group.city_slug}
+                title={group.group_name}
+              >
+                <h3 class={styles.author}>{group.organizer}</h3>
+                <div q:slot="footer">
+                  <span>{group.event_count} upcoming events</span> ·
+                  <span>{group.members} members</span>
                 </div>
-              );
-            })
-          : "City doesnt have community"}
-      </div>
+              </Card>
+            );
+          })}
+        </List>
+      </section>
     </>
   );
 });

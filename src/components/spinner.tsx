@@ -1,4 +1,4 @@
-import { component$ } from '@builder.io/qwik'
+import { component$ } from "@builder.io/qwik";
 
 export default component$(() => {
   return (
@@ -25,5 +25,5 @@ export default component$(() => {
       </svg>
       <span class="sr-only">Loading...</span>
     </div>
-  )
-})
+  );
+});

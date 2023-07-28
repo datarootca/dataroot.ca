@@ -4,11 +4,10 @@ import { fetchEvents } from "~/app/api";
 
 export const useInitialRecentDataLoder = routeLoader$(
   async ({ status,params }): Promise<EventApiResponse | null> => {
-    console.log(params.community)
     const eventsResponse = await fetchEvents({
       page: 1,
       group_slug: params.community,
-      status: 'Past',
+      status: 'Recurrent',
     });
     if (!eventsResponse) {
       status(404);

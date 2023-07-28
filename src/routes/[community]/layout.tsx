@@ -1,34 +1,20 @@
 import { component$, Slot } from "@builder.io/qwik";
 import stylus from "./index.module.css";
 import { Link, routeLoader$, useLocation } from "@builder.io/qwik-city";
-import db from "../../database";
-export interface IGroup {
-  groupid: number;
-  name: string;
-  slug: string;
-  description: string;
-  highres_link: string;
-  members: number;
-  active: boolean;
-  private: boolean;
-  city: string;
-  state: string;
-  organizer: string;
-  organizer_img_link: string;
-}
-export const useEventLoader = routeLoader$(async ({ params, status }): Promise<IGroup | undefined> => {
-  const eventQuery = await db.query<IGroup>(
-`SELECT g.groupid,g.name,g.slug,g.description,g.highres_link,g.active,g.members,g.private,c.name AS city,s.symbol as state,g.organizer FROM"group" g JOIN city c USING(cityid)JOIN state s USING(stateid)
-where g.slug = $1::text;`,[params.community]
-  );
+import { fetchDetailGroup } from "~/app/api";
 
-  const item = eventQuery.rows[0]
-  if (!item) {
-    status(404);
-    return ;
+export const useInitialDataLoder = routeLoader$(
+  async ({ status,params }): Promise<ApiGroupDetailedResponse | undefined> => {
+
+    const item = await fetchDetailGroup(params.community);
+    if (!item) {
+      status(404);
+      return;
+    }
+
+    return item;
   }
-  return item;
-});
+);
 function getIcon(provider: string) {
   if (provider === "slack") {
     return (
@@ -177,9 +163,8 @@ function getIcon(provider: string) {
   );
 }
 
-
 export default component$(() => {
-  const { value: community } = useEventLoader();
+  const { value: community } = useInitialDataLoder();
   if (!community) {
     return <p>Sorry, looks like community doesnt exists.</p>;
   }
@@ -190,118 +175,132 @@ export default component$(() => {
   const sliderLinks = [
     {
       name: "Overview",
-      uri: "./",
+      uri: `/${community.slug}/`,
     },
     {
       name: "Upcoming",
-      uri: "upcoming",
+      uri: `/${community.slug}/upcoming/`,
     },
     {
       name: "Reccuring",
-      uri: "reccuring",
+      uri: `/${community.slug}/reccuring/`,
     },
     {
       name: "Past",
-      uri: "past",
+      uri: `/${community.slug}/past/`,
     },
   ];
-    const groups = [
-      {
-        type: "meetup",
-        url: " http://www.meetup.com/LearnDataScience/",
-      },
-      {
-        type: "slack",
-        url: " https://vantech.herokuapp.com/",
-      },
-      {
-        type: "discord",
-        url: "https://discord.gg/EpJPUks",
-      },
-      {
-        type: "twitter",
-        url: "@LearnDSML",
-      },
-      {
-        type: "linkedin",
-        url: " https://www.linkedin.com/company/learning-data-science/",
-      },
-    ];
+  const groups = [
+    {
+      type: "meetup",
+      url: " http://www.meetup.com/LearnDataScience/",
+    },
+    {
+      type: "slack",
+      url: " https://vantech.herokuapp.com/",
+    },
+    {
+      type: "discord",
+      url: "https://discord.gg/EpJPUks",
+    },
+    {
+      type: "twitter",
+      url: "@LearnDSML",
+    },
+    {
+      type: "linkedin",
+      url: " https://www.linkedin.com/company/learning-data-science/",
+    },
+  ];
   return (
     <>
       <section class={stylus.heroSection}>
         <div class={stylus.imageWrapper}>
           <picture>
-            <img class={stylus.img} src={community.highres_link} alt={community.name} />
+            <img
+              class={stylus.img}
+              src={community.highres_link}
+              alt={community.name}
+            />
           </picture>
         </div>
-        <div class="container">
+        <div class={stylus.container}>
           <div class={stylus.eventWrapper}>
             <div class={stylus.iconWrapper}></div>
             <div class={stylus.titleWrapper}>
               <div class={stylus.heroWrapper}>
                 <h2 class={stylus.hero}>{community.name.toUpperCase()}</h2>
-                <div class={[stylus.badge, stylus.badgeActive]}>{community.active ? 'ACTIVE' : 'UNACTIVE'}</div>
+                <div class={[stylus.badge, stylus.badgeActive]}>
+                  {community.active ? "ACTIVE" : "UNACTIVE"}
+                </div>
               </div>
               <div class={stylus.subtitle}>
                 <span class={stylus.author}>{community.organizer}</span>
 
                 <span class={stylus.dot}></span>
-                <span class={stylus.access}>{community.private ? 'PRIVATE' : 'PUBLIC'}</span>
+                <span class={stylus.access}>
+                  {community.private ? "PRIVATE" : "PUBLIC"}
+                </span>
               </div>
             </div>
           </div>
-          <div class={stylus.info}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 512 512"
-            >
-              <path
-                d="M256,48c-79.5,0-144,61.39-144,137,0,87,96,224.87,131.25,272.49a15.77,15.77,0,0,0,25.5,0C304,409.89,400,272.07,400,185,400,109.39,335.5,48,256,48Z"
-                class={stylus.circle}
-              />
-              <circle cx="256" cy="192" r="48" class={stylus.circle} />
-            </svg>
-            <span>{community.city},{community.state.toUpperCase()}</span>
+      
+          <div class={stylus.infoWrapper}>
+            <div class={stylus.info}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  d="M256,48c-79.5,0-144,61.39-144,137,0,87,96,224.87,131.25,272.49a15.77,15.77,0,0,0,25.5,0C304,409.89,400,272.07,400,185,400,109.39,335.5,48,256,48Z"
+                  class={stylus.circle}
+                />
+                <circle cx="256" cy="192" r="48" class={stylus.circle} />
+              </svg>
+              <span>
+                {community.city_name},{community.state_symbol.toUpperCase()}
+              </span>
+            </div>
+            <div class={stylus.info}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M20.5 21C21.8807 21 23 19.8807 23 18.5C23 16.1726 21.0482 15.1988 19 14.7917M15 11C17.2091 11 19 9.20914 19 7C19 4.79086 17.2091 3 15 3M3.5 21.0001H14.5C15.8807 21.0001 17 19.8808 17 18.5001C17 14.4194 11 14.5001 9 14.5001C7 14.5001 1 14.4194 1 18.5001C1 19.8808 2.11929 21.0001 3.5 21.0001ZM13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z"
+                  stroke="#000000"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span>{community.members} members</span>
+            </div>
+            <div class={stylus.info}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M20.5 21C21.8807 21 23 19.8807 23 18.5C23 16.1726 21.0482 15.1988 19 14.7917M15 11C17.2091 11 19 9.20914 19 7C19 4.79086 17.2091 3 15 3M3.5 21.0001H14.5C15.8807 21.0001 17 19.8808 17 18.5001C17 14.4194 11 14.5001 9 14.5001C7 14.5001 1 14.4194 1 18.5001C1 19.8808 2.11929 21.0001 3.5 21.0001ZM13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z"
+                  stroke="#000000"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span>pay fee</span>
+            </div>
           </div>
-          <div class={stylus.info}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M20.5 21C21.8807 21 23 19.8807 23 18.5C23 16.1726 21.0482 15.1988 19 14.7917M15 11C17.2091 11 19 9.20914 19 7C19 4.79086 17.2091 3 15 3M3.5 21.0001H14.5C15.8807 21.0001 17 19.8808 17 18.5001C17 14.4194 11 14.5001 9 14.5001C7 14.5001 1 14.4194 1 18.5001C1 19.8808 2.11929 21.0001 3.5 21.0001ZM13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z"
-                stroke="#000000"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            <span>{community.members} members</span>
-          </div>
-          <div class={stylus.info}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M20.5 21C21.8807 21 23 19.8807 23 18.5C23 16.1726 21.0482 15.1988 19 14.7917M15 11C17.2091 11 19 9.20914 19 7C19 4.79086 17.2091 3 15 3M3.5 21.0001H14.5C15.8807 21.0001 17 19.8808 17 18.5001C17 14.4194 11 14.5001 9 14.5001C7 14.5001 1 14.4194 1 18.5001C1 19.8808 2.11929 21.0001 3.5 21.0001ZM13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z"
-                stroke="#000000"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            <span>pay fee</span>
-          </div>
+          
           <div class={stylus.social}>
             <h5>Find us also at:</h5>
             <div class={stylus.links}>
@@ -319,7 +318,7 @@ export default component$(() => {
           {sliderLinks.map((link, index) => (
             <span
               key={index}
-              class={currentLocation.match(link.uri) ? stylus.active : ""}
+              class={currentLocation == link.uri ? stylus.active : ""}
             >
               <Link href={link.uri}>{link.name}</Link>
             </span>

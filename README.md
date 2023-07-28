@@ -42,6 +42,16 @@ visit website http://localhost:5174
 
 This module is maintained by the contributors listed on [GitHub](https://github.com/tkudlicka/dataroot.ca/graphs/contributors).
 
+## Express Server
+
+This app has a minimal [Express server](https://expressjs.com/) implementation. After running a full build, you can preview the build using the command:
+
+```
+npm run serve
+```
+
+Then visit [http://localhost:8080/](http://localhost:8080/)
+
 ## Vercel Edge
 
 This starter site is configured to deploy to [Vercel Edge Functions](https://vercel.com/docs/concepts/functions/edge-functions), which means it will be rendered at an edge location near to your users.
@@ -62,10 +72,10 @@ Additionally, within the `package.json`, the `build.server` script will be updat
 
 ## Production build
 
-To build the application for production, use the `build` command, this command will automatically run `yarn build.server` and `yarn build.client`:
+To build the application for production, use the `build` command, this command will automatically run `npm run build.server` and `npm run build.client`:
 
 ```shell
-yarn build
+npm run build
 ```
 
 [Read the full guide here](https://github.com/BuilderIO/qwik/blob/main/starters/adapters/vercel-edge/README.md)
@@ -75,7 +85,7 @@ yarn build
 To deploy the application for development:
 
 ```shell
-yarn deploy
+npm run deploy
 ```
 
 Notice that you might need a [Vercel account](https://docs.Vercel.com/get-started/) in order to complete this step!
