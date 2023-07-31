@@ -10,29 +10,19 @@ export const RouterHead = component$(() => {
 
   return (
     <>
-      <title>{head.title}</title>
-
       <link rel="canonical" href={loc.url.href} />
       <meta
         name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1"
+        content="width=device-width, initial-scale=1, maximum-scale=2, minimum-scale=1"
       />
       <meta name="theme-color" content="#ffffff" />
-      <meta
-        name="description"
-        content="Dataroot is an open platform where readers find dynamic thinking, and where expert and undiscovered voices can share their writing on any topic."
-      />
+      <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+      <title>{head.title}</title>
       <meta name="author" content="Tomas Kudlicka" />
-      <meta name="robots" content="all" />
-      <meta name="og:type" content="website" />
-      <meta property="og:url" content="https://dataroot.ca" />
-      <meta name="og:site_name" content="Dataroot" />
-      <meta name="og:email" content="hello@dataroot.ca" />
-      <meta name="og:locale" content="en_US" />
-      <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
       {head.meta.map((m) => (
         <meta key={m.key} {...m} />
       ))}
+      <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
       {head.links.map((l) => (
         <link key={l.key} {...l} />
