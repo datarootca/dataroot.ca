@@ -4,17 +4,22 @@ import { Link } from "@builder.io/qwik-city";
 
 import stylus from "./index.module.css";
 export default component$(() => {
- 
   return (
     <>
       <section
-        class={[stylus.header,stylus.header_buttons, stylus.header_image,stylus.section,'container']}
+        class={[
+          stylus.header,
+          stylus.header_buttons,
+          stylus.header_image,
+          stylus.section,
+          "container",
+        ]}
       >
-        <div class={[stylus.container,stylus.header__container]}>
+        <div class={[stylus.container, stylus.header__container]}>
           <div class={stylus.header__content}>
             <div class={stylus.header__start}>
               <h1
-                class={[stylus.header__title,stylus.subtitle]}
+                class={[stylus.header__title, stylus.subtitle]}
                 style="opacity: 1; transform: translate(0px, 0px);"
               >
                 Explore local{" "}
@@ -35,11 +40,7 @@ export default component$(() => {
                 class={stylus.header__big}
                 style="opacity: 1; transform: translate(0px, 0px);"
               >
-                <Link
-                  href="/groups"
-                  class={stylus.header__link}
-                  target="_self"
-                >
+                <Link href="/groups" class={stylus.header__link} target="_self">
                   Explore groups
                   <svg
                     width="30"
@@ -52,13 +53,9 @@ export default component$(() => {
                     <path d="M20.5303 15.5303C20.8232 15.2374 20.8232 14.7626 20.5303 14.4697L15.7574 9.6967C15.4645 9.40381 14.9896 9.40381 14.6967 9.6967C14.4038 9.98959 14.4038 10.4645 14.6967 10.7574L18.9393 15L14.6967 19.2426C14.4038 19.5355 14.4038 20.0104 14.6967 20.3033C14.9896 20.5962 15.4645 20.5962 15.7574 20.3033L20.5303 15.5303ZM9 15.75L20 15.75L20 14.25L9 14.25L9 15.75Z"></path>
                   </svg>
                 </Link>
-                <Link
-                  href="/events"
-                  class={stylus.header__link}
-                  target="_self"
-                >
+                <Link href="/events" class={stylus.header__link} target="_self">
                   Exploge events
-                  <svg 
+                  <svg
                     width="30"
                     height="30"
                     viewBox="0 0 30 30"
@@ -88,7 +85,7 @@ export default component$(() => {
                 </Link>
               </div>
             </div>
-            <div class={stylus.header__end }>
+            <div class={stylus.header__end}>
               <div class={stylus.header__images}>
                 <div
                   class={stylus.header__images_poster}
@@ -97,9 +94,12 @@ export default component$(() => {
                   <img
                     decoding="async"
                     loading="eager"
+                    width={100}
+                    height={100}
                     role="heading"
+                    alt="Conference hall interior" 
+                    aria-label="Conference Hall"
                     src="/img/main612x612.jpg"
-                    alt="Conference hall"
                   />
                 </div>
               </div>
@@ -185,7 +185,8 @@ export const head: DocumentHead = {
     },
     {
       property: "twitter:description",
-      content: "Dataroot is an open platform where readers find dynamic thinking, and where expert and undiscovered voices can share their writing on any topic.",
+      content:
+        "Dataroot is an open platform where readers find dynamic thinking, and where expert and undiscovered voices can share their writing on any topic.",
     },
     {
       property: "twitter:image",

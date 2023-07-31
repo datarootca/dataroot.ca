@@ -8,10 +8,12 @@
   --dd-hp-primary-btn: #fff;
 }
 
-
 .subtitle span {
   text-decoration: none;
-  background-image: linear-gradient(var(--dd-seconadry-bg), var(--dd-seconadry-bg));
+  background-image: linear-gradient(
+    var(--dd-seconadry-bg),
+    var(--dd-seconadry-bg)
+  );
   background-position: 0 91%;
   background-repeat: no-repeat;
   background-size: 100% 4px;
@@ -180,9 +182,7 @@
   }
 }
 
-.header_buttons
-  .header__big
-  .header__link:first-child {
+.header_buttons .header__big .header__link:first-child {
   width: 100%;
   background-color: var(--dd-primary-bg);
   font-size: 30px;
@@ -210,15 +210,11 @@
   transition: all 0.4s;
 }
 
-.header_buttons
-  .header__big
-  .header__link:nth-child(n + 2) {
+.header_buttons .header__big .header__link:nth-child(n + 2) {
   flex: 1 1 calc(50% - 7px);
 }
 @media (max-width: 640px) {
-  .header_buttons
-    .header__big
-    .header__link:nth-child(n + 2) {
+  .header_buttons .header__big .header__link:nth-child(n + 2) {
     flex: 100%;
   }
 }
@@ -231,9 +227,7 @@
   }
 }
 @media (max-width: 767px) {
-  .header_buttons
-    .header__big
-    .header__link:first-child {
+  .header_buttons .header__big .header__link:first-child {
     font-size: 20px;
     line-height: 30px;
   }
@@ -260,14 +254,12 @@
   margin-top: 77px;
 }
 @media (max-width: 991px) {
-  .header_buttons
-    .header__big {
+  .header_buttons .header__big {
     margin-top: 47px;
   }
 }
 @media (max-width: 767px) {
-  .header_buttons
-    .header__big {
+  .header_buttons .header__big {
     margin-top: 35px;
   }
 }
@@ -317,7 +309,7 @@
 }
 @media (max-width: 991px) {
   .header {
-    padding-top: 1px ;
+    padding-top: 1px;
     padding-bottom: 20px;
   }
 }
@@ -326,10 +318,7 @@
   width: auto;
 }
 
-.header_buttons
-  .header__big
-  .header__link:first-child
-  svg {
+.header_buttons .header__big .header__link:first-child svg {
   fill: #fff;
 }
 
@@ -363,14 +352,12 @@
   }
 }
 @media (min-width: 992px) {
-  .header_image
-    .header__end {
+  .header_image .header__end {
     margin-right: 0;
   }
 }
 @media (max-width: 767px) {
-  .header_image
-    .header__end {
+  .header_image .header__end {
     margin-bottom: 32px;
   }
 }
@@ -382,8 +369,7 @@
   }
 }
 
-.header_image
-  .header__images {
+.header_image .header__images {
   display: flex;
 }
 
@@ -415,8 +401,7 @@
   .header__images {
     width: 402px;
     height: 373px;
-}
-
+  }
 }
 
 @media (max-width: 575px) {

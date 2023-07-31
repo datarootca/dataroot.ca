@@ -82,8 +82,8 @@ body {
 
 :root {
   --dd-bg: #fff;
-  --dd-primary-bg:rgb(190,38,37);
-  --dd-seconadry-bg:rgb(230,38,35);
+  --dd-primary-bg: rgb(190, 38, 37);
+  --dd-seconadry-bg: rgb(230, 38, 35);
 
   --cc-text: var(--bs-gray-800);
   --dd-title: var(--bs-gray-900);
