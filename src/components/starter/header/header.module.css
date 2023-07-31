@@ -21,7 +21,9 @@
 
 .logo {
   display: inline-block;
+  align-items: center;
 }
+
 .logo a {
   display: block;
 }
@@ -70,6 +72,15 @@
 .header ul li {
   display: list-item;
   text-align: -webkit-match-parent;
+}
+.logo_text {
+  display: none;
+}
+@media screen and (min-width: 560px) {
+  .logo_text {
+    display: inline;
+
+  }
 }
 @media screen and (min-width: 768px) {
   .header ul {

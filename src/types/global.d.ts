@@ -148,6 +148,8 @@ declare global {
     link: string;
     /** Author name */
     author: string;
+    /** Description of image */
+    alt: string;
     /** High-res photo link */
     highres_link: string | null;
     /** Photo link */
