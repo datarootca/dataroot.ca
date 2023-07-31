@@ -50,7 +50,6 @@
   top: 0;
   z-index: 1020;
   align-items: center;
-  border-bottom: 2px solid rgba(175, 196, 215, 0.5);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -79,7 +78,6 @@
 @media screen and (min-width: 560px) {
   .logo_text {
     display: inline;
-
   }
 }
 @media screen and (min-width: 768px) {
