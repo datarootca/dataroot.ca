@@ -2,6 +2,7 @@ import { component$ } from "@builder.io/qwik";
 import stylus from "./index.module.css";
 import { useInitialDataLoder } from "./layout";
 import { routeLoader$ } from "@builder.io/qwik-city";
+import Notfound from "~/components/notfound";
 export const useRecentEventLoader = routeLoader$(
   async ({ status }): Promise<IEvent | undefined> => {
     //`SELECT e.eventid,e.description,e."time",COALESCE(e.highres_link,g.highres_link)AS highres_link,e.name,g.name AS group_name,g.slug AS group_slug,e.in_person,e.location,e.is_online,e.link,e.yes_rsvp_count,e.rsvp_limit FROM event e JOIN"group" g USING(groupid)
@@ -20,7 +21,7 @@ export default component$(() => {
   const { value: community } = useInitialDataLoder();
   const recentEventSignal = useRecentEventLoader();
   if (!community) {
-    return <p>Sorry, looks like community doesnt exists.</p>;
+    return <Notfound/>;
   }
   return (
     <>

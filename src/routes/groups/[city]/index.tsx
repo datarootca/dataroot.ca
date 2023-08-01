@@ -4,6 +4,7 @@ import styles from "../index.module.css";
 
 import Card from "~/components/card";
 import List from "~/components/list";
+import NotFound from "~/components/notfound";
 import { fetchCityBySlug, fetchGroups } from "~/app/api";
 
 export const useGroupsLoader = routeLoader$(
@@ -16,7 +17,6 @@ export const useGroupsLoader = routeLoader$(
   }> => {
     console.log(params.city);
     const cityItem = await fetchCityBySlug(params.city);
-    console.log(cityItem);
     if (!cityItem) {
       status(404);
       return {
@@ -24,12 +24,7 @@ export const useGroupsLoader = routeLoader$(
         items: [],
       };
     }
-    //  `SELECT g.name,g.members,g.slug,g.photo_link as img,g.organizer,g.groupid,c.slug AS cityslug,c.name AS cityname,s.symbol AS statesymbol FROM"group" g LEFT JOIN city c USING(cityid)LEFT JOIN state s USING(stateid)`
-    //  + `where g.cityid = $1::bigint`,
 
-    //`SELECT e.groupid,count(e.eventid)AS event_count FROM"event" e WHERE e.groupid in(${groupQuery.rows
-    //  .map((g) => g.groupid)
-    //  .join(",")}) AND time>=now()GROUP BY e.groupid`
     const groupItems = await fetchGroups(1, cityItem.slug);
 
     return {
@@ -41,7 +36,7 @@ export const useGroupsLoader = routeLoader$(
 export default component$(() => {
   const groupSignal = useGroupsLoader();
   if (!groupSignal.value.city) {
-    return <>not found</>;
+    return <NotFound />;
   }
   return (
     <>

@@ -216,7 +216,7 @@ export const head: DocumentHead = {
     },
     {
       property: "og:image",
-      content: "url na image",
+      content: "url",
     },
     {
       property: "og:image:width",

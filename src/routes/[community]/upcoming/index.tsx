@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import { Link, routeLoader$ } from "@builder.io/qwik-city";
 import { fetchEvents } from "~/app/api";
 
 export const useInitialRecentDataLoder = routeLoader$(
@@ -27,7 +27,11 @@ export default component$(() => {
   return (
     <div>
       {upcomingEvents.value.records.map((event) => (
-        <div class="card">{event.name}</div>
+        <div key={event.eventid} class="card">
+          <Link href={`/${event.group_slug}/events/${event.eventid}`}>
+            {event.name}
+          </Link>
+        </div>
       ))}
     </div>
   );

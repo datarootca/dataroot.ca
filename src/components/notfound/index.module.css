@@ -1,0 +1,51 @@
+/*======================
+    404 page
+=======================*/
+
+
+.page_404{ padding:40px 0; background:#fff; font-family: 'Arvo', serif;
+}
+
+.page_404  img{ width:100%;}
+
+.four_zero_four_bg{
+ 
+ background-image: url(/public/img/notfound.gif);
+    height: 400px;
+    background-position: center;
+ }
+ .text_center {
+  text-align: center;
+ }
+ .wrapper {
+  padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+ }
+ .row {
+  margin-right: -15px;
+  margin-left: -15px;
+ }
+ .col {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+    text-align: center;
+ }
+ .four_zero_four_bg h1{
+ font-size:80px;
+ }
+ 
+  .four_zero_four_bg h3{
+       font-size:80px;
+       }
+       
+       .link_404{      
+    background: var(--dd-primary-bg);
+    color: var(--dd-bg);
+    padding: 10px 20px;
+    margin: 20px 0;
+    display: inline-block;}
+  .contant_box_404{ margin-top:-50px;}

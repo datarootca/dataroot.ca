@@ -18,7 +18,7 @@ export default component$(
     const nav = useNavigate();
     return (
       <div onClick$={() => nav(href)} class={styles.card}>
-        <img class={styles.img} src={src} />
+        <img class={styles.img} src={src} loading="lazy" />
         <div class={styles.body}>
           <Link href={subtitleHref} class={styles.subtitle}>
             {subtitle}

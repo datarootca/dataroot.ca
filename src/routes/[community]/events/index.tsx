@@ -7,7 +7,7 @@ export const useInitialRecentDataLoder = routeLoader$(
     const eventsResponse = await fetchEvents({
       page: 1,
       group_slug: params.community,
-      status: "Recurrent",
+      status: "Upcoming",
     });
     if (!eventsResponse) {
       status(404);
@@ -19,12 +19,17 @@ export const useInitialRecentDataLoder = routeLoader$(
 );
 
 export default component$(() => {
-  const upcomingEvents = useInitialRecentDataLoder();
+  const upcomingEvents = {
+    value: {
+      records: [],
+    },
+  };
   if (!upcomingEvents.value) {
     return <>not found</>;
   }
   return (
     <div>
+      ha?
       {upcomingEvents.value.records.map((event) => (
         <div class="card">{event.name}</div>
       ))}

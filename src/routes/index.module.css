@@ -339,7 +339,7 @@
 .header__link svg circle {
   stroke-width: 1.5px;
   stroke: var(--dd-primary-bg);
-  fill: #fff;
+  fill: var(--dd-bg);
   transition: all 0.4ms;
 }
 @media (max-width: 991px) {
