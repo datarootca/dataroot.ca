@@ -103,8 +103,10 @@ export default component$(() => {
   });
   return (
     <div class={[stylus.container, "container"]}>
-      <h2>Articles </h2>
-      count {count.value}
+      <div class={stylus.hero}>
+        <h2>Articles </h2>
+        <span class={stylus.count_badge}>{count.value} records</span>
+      </div>
       <div class={[stylus.articles]}>
         <section class={stylus.content}>
           {articles.map((article, index) => (
@@ -120,7 +122,12 @@ export default component$(() => {
                   <h2>{article.name}</h2>
                   <h3 class={stylus.description}>{article.description}</h3>
                   <div class={stylus.footer}>
-                    <span>{new Date(article.publish_at).toUTCString()}</span>
+                    <span>
+                      {new Date(article.publish_at).toLocaleDateString(
+                        "en-US",
+                        { month: "short", day: "numeric" }
+                      )}
+                    </span>
                     <span>{article.time_m} min read</span>
                   </div>
                 </a>
@@ -128,8 +135,11 @@ export default component$(() => {
               <div class={stylus.img}>
                 <img
                   class={stylus.img}
+                  loading="lazy"
+                  width={200}
+                  height={134}
                   src={article.highres_link || ""}
-                  alt=""
+                  alt={article.alt || "Image"}
                 />
               </div>
             </div>
@@ -159,5 +169,94 @@ export default component$(() => {
 
 export const head: DocumentHead = {
   title: "Find and Explore Data's Best Resources - Dataroot",
-  meta: [],
+  meta: [
+    {
+      name: "description",
+      content: "description",
+    },
+    {
+      name: "robots",
+      content: "all",
+    },
+    {
+      name: "googlebot",
+      content: "all",
+    },
+    {
+      property: "og:locale",
+      content: "en_US",
+    },
+    {
+      property: "og:title",
+      content: "title",
+    },
+    {
+      property: "og:description",
+      content: "title",
+    },
+    {
+      property: "og:url",
+      content: "title",
+    },
+    {
+      property: "og:email",
+      content: "hello@dataroot.ca",
+    },
+    {
+      property: "og:site_name",
+      content: "dataroot.ca",
+    },
+    {
+      property: "type",
+      content: "articles",
+    },
+    {
+      property: "og:updated_time",
+      content: "2023-07--8T13:37:33+00:00",
+    },
+    {
+      property: "og:image",
+      content: "url na image",
+    },
+    {
+      property: "og:image:width",
+      content: "1200",
+    },
+    {
+      property: "og:image:height",
+      content: "600",
+    },
+    {
+      property: "og:image:alt",
+      content: "alt",
+    },
+    {
+      property: "og:image:type",
+      content: "image/png",
+    },
+    {
+      property: "twitter:card",
+      content: "image/png",
+    },
+    {
+      property: "twitter:title",
+      content: "image/png",
+    },
+    {
+      property: "twitter:description",
+      content: "image/png",
+    },
+    {
+      property: "twitter:image",
+      content: "image/png",
+    },
+    {
+      property: "apple-mobile-web-app-capable",
+      content: "yes",
+    },
+    {
+      property: "apple-mobile-web-app-status-bar-style",
+      content: "black",
+    },
+  ],
 };

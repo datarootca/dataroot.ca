@@ -97,7 +97,7 @@ export default component$(() => {
                     width={100}
                     height={100}
                     role="heading"
-                    alt="Conference hall interior" 
+                    alt="Conference hall interior"
                     aria-label="Conference Hall"
                     src="/img/main612x612.jpg"
                   />
