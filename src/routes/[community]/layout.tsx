@@ -3,6 +3,7 @@ import stylus from "./index.module.css";
 import { Link, routeLoader$, useLocation } from "@builder.io/qwik-city";
 import { fetchDetailGroup } from "~/app/api";
 import Notfound from "~/components/notfound";
+import Groupcard from "~/components/GroupCard";
 
 export const useInitialDataLoder = routeLoader$(
   async ({ status, params }): Promise<ApiGroupDetailedResponse | undefined> => {
@@ -166,7 +167,7 @@ function getIcon(provider: string) {
 export default component$(() => {
   const { value: community } = useInitialDataLoder();
   if (!community) {
-    return <Notfound/>;
+    return <Notfound />;
   }
 
   const location = useLocation();
@@ -178,16 +179,8 @@ export default component$(() => {
       uri: `/${community.slug}/`,
     },
     {
-      name: "Upcoming",
-      uri: `/${community.slug}/upcoming/`,
-    },
-    {
-      name: "Reccuring",
-      uri: `/${community.slug}/reccuring/`,
-    },
-    {
-      name: "Past",
-      uri: `/${community.slug}/past/`,
+      name: "Events",
+      uri: `/${community.slug}/events/`,
     },
   ];
   const groups = [
@@ -218,6 +211,7 @@ export default component$(() => {
         <div class={stylus.imageWrapper}>
           <picture>
             <img
+              role="presentation"
               loading="eager"
               class={stylus.img}
               src={community.highres_link}
@@ -237,7 +231,6 @@ export default component$(() => {
               </div>
               <div class={stylus.subtitle}>
                 <span class={stylus.author}>{community.organizer}</span>
-
                 <span class={stylus.dot}></span>
                 <span class={stylus.access}>
                   {community.private ? "PRIVATE" : "PUBLIC"}
@@ -302,7 +295,7 @@ export default component$(() => {
                 <span>{community.fee}fee</span>
               </div>
             ) : (
-              <div></div>
+              <></>
             )}
           </div>
 
@@ -351,6 +344,47 @@ export default component$(() => {
       </div>
       <section class="container">
         <h3>Similiar group nearby</h3>
+        <div class={stylus.slider}>
+          <Groupcard item={
+            {
+              group_name: 'test',
+              group_highres_link: 'https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg',
+              group_slug: 'https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg',
+              city_name: 'Vancovuer',
+              state_symbol: 'BC',
+              city_slug: 'vancovuer',
+              organizer: 'TEst',
+              event_count: 1,
+              members: 1,
+            }
+          } />
+          <Groupcard item={
+            {
+              group_name: 'test',
+              group_highres_link: 'https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg',
+              group_slug: 'https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg',
+              city_name: 'Vancovuer',
+              state_symbol: 'BC',
+              city_slug: 'vancovuer',
+              organizer: 'TEst',
+              event_count: 1,
+              members: 1,
+            }
+          } />
+          <Groupcard item={
+            {
+              group_name: 'test',
+              group_highres_link: 'https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg',
+              group_slug: 'https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg',
+              city_name: 'Vancovuer',
+              state_symbol: 'BC',
+              city_slug: 'vancovuer',
+              organizer: 'TEst',
+              event_count: 1,
+              members: 1,
+            }
+          } />
+        </div>
       </section>
     </>
   );

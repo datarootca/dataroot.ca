@@ -115,7 +115,10 @@
 }
 
 .relatedCategory {
-  margin-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 8px;
 }
 .relatedCategory a:first-child {
   margin-left: 0px;
@@ -204,18 +207,7 @@
   --badge-shadow: rgb(207, 229, 252);
   --badge-bg: rgb(231, 243, 253);
 }
-.badge {
-  background: #fff;
-  padding: 0 8px;
-  height: 20px;
-  margin-left: 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  border: solid var(--badge-shadow, rgba(0, 0, 0, 0.5)) 1px;
-  color: var(--badge-cl, currentColor);
-  background-color: var(--badge-bg, #fff);
-}
+
 .stroke {
   stroke-width: 2px;
 }
@@ -390,4 +382,18 @@
 .cardWrapper {
   margin-top: 24px;
   margin-bottom: 24px;
+}
+
+.slider {
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.slider div {
+  min-width: 300px;
+  height: auto;
 }

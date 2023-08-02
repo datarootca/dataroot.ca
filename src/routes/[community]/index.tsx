@@ -3,11 +3,9 @@ import stylus from "./index.module.css";
 import { useInitialDataLoder } from "./layout";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import Notfound from "~/components/notfound";
+import Badge from "~/components/Badge";
 export const useRecentEventLoader = routeLoader$(
   async ({ status }): Promise<IEvent | undefined> => {
-    //`SELECT e.eventid,e.description,e."time",COALESCE(e.highres_link,g.highres_link)AS highres_link,e.name,g.name AS group_name,g.slug AS group_slug,e.in_person,e.location,e.is_online,e.link,e.yes_rsvp_count,e.rsvp_limit FROM event e JOIN"group" g USING(groupid)
-    //where g.slug = $1::text and e.time>=now()order by e.time desc limit 1`,
-
     const item = null;
     if (!item) {
       status(404);
@@ -21,7 +19,7 @@ export default component$(() => {
   const { value: community } = useInitialDataLoder();
   const recentEventSignal = useRecentEventLoader();
   if (!community) {
-    return <Notfound/>;
+    return <Notfound />;
   }
   return (
     <>
@@ -98,11 +96,11 @@ export default component$(() => {
       <div class={stylus.cardWrapper}>
         <h3>Related category</h3>
         <section class={stylus.relatedCategory}>
-          <a class={stylus.badge}>Career Network</a>
-          <a class={stylus.badge}>Professional Networking</a>
-          <a class={stylus.badge}>Career Coaching</a>
-          <a class={stylus.badge}>Technology Professionals</a>
-          <a class={stylus.badge}>Women Programmers</a>
+          <Badge>Career Network</Badge>
+          <Badge>Career Network</Badge>
+          <Badge>Career Network</Badge>
+          <Badge>Career Network</Badge>
+          <Badge>Career Network</Badge>
         </section>
       </div>
     </>

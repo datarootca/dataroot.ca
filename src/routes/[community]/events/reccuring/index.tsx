@@ -1,15 +1,16 @@
 import { component$ } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import {  routeLoader$ } from "@builder.io/qwik-city";
 import { fetchEvents } from "~/app/api";
-
+import EventCardDetail from "~/components/EventCardDetail";
 export const useInitialRecentDataLoder = routeLoader$(
   async ({ status, params }): Promise<EventApiResponse | null> => {
-    console.log(params.community);
     const eventsResponse = await fetchEvents({
       page: 1,
       group_slug: params.community,
       status: "Recurrent",
     });
+
+   
     if (!eventsResponse) {
       status(404);
       return null;
@@ -20,18 +21,6 @@ export const useInitialRecentDataLoder = routeLoader$(
 );
 
 export default component$(() => {
-  const upcomingEvents = useInitialRecentDataLoder();
-  if (!upcomingEvents.value) {
-    return <>not found</>;
-  }
-  return (
-    <div>
-      {upcomingEvents.value.records.map((event) => (
-        <div key={event.eventid} class="card">
-          {event.name}
-          desc{event.description}
-        </div>
-      ))}
-    </div>
-  );
+  const events = useInitialRecentDataLoder();
+  return <EventCardDetail events={events} />
 });

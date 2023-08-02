@@ -56,7 +56,7 @@ declare global {
     /** Event URL or address */
     location: string;
     /** Group ID */
-    groupid: string;
+    group_slug: string;
     /** In-person event status */
     in_person: boolean;
     /** Event start time */

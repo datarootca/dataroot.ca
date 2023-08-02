@@ -1,0 +1,76 @@
+.card {
+  width: 100%;
+  max-height: 400px;
+  overflow: hidden;
+  border-radius: max(0px, min(8px, ((100vw - 4px) - 100%) * 9999)) / 8px;
+  cursor: pointer;
+  border: 1px solid var(--cc-section-border);
+}
+.footer {
+  color: var(--secondary-text, #65676b);
+  word-wrap: break-word;
+  font-weight: 400;
+  line-height: 1.2308;
+  font-size: 0.8125rem;
+  padding: 0 16px 12px 16px;
+}
+.subtitle {
+  font-weight: 600;
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  line-height: 1.2308;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+.img {
+  object-fit: cover;
+  width: 100%;
+  overflow-clip-margin: content-box;
+  aspect-ratio: 16/9;
+  overflow: clip;
+}
+.body {
+  padding: 12px 16px 0 16px;
+}
+.hero h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.2308;
+}
+.img {
+  object-fit: cover;
+  width: 100%;
+  overflow-clip-margin: content-box;
+  aspect-ratio: 16/9;
+  overflow: clip;
+}
+.hero {
+  margin: 24px 0 24px 0;
+  align-items: center;
+  justify-items: center;
+  gap: 8px;
+  display: flex;
+}
+
+.title {
+  display: block;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  line-height: 1.2;
+}
+
+.title:hover,
+.subtitle:hover {
+  text-decoration: underline;
+}
+
+.card h2 {
+  -webkit-tap-highlight-color: transparent;
+  word-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+}

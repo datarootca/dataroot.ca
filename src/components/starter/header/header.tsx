@@ -2,21 +2,20 @@ import { component$ } from "@builder.io/qwik";
 import styles from "./header.module.css";
 import { useLocation } from "@builder.io/qwik-city";
 import { Link } from "@builder.io/qwik-city";
-
 export default component$(() => {
   const location = useLocation();
   const menu = [
     {
       name: "Articles",
-      uri: "articles",
+      uri: "/articles",
     },
     {
       name: "Events",
-      uri: "events",
+      uri: "/events",
     },
     {
       name: "Groups",
-      uri: "groups",
+      uri: "/groups",
     },
   ];
   const currentLocation = location.url.pathname;
@@ -62,8 +61,8 @@ export default component$(() => {
         {menu.map((m, i) => (
           <li key={i}>
             <Link
-              class={currentLocation.match(m.uri) ? styles.active : ""}
-              href={"/" + m.uri}
+              class={currentLocation === m.uri ? styles.active : ""}
+              href={m.uri}
               target="_self"
             >
               {m.name}

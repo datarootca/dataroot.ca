@@ -16,6 +16,7 @@ export async function fetchEvents(
 
   // Append each filter value to the URL
   const response = await fetch(`${BASE_URL}/event?${params.toString()}`);
+  console.log(`${BASE_URL}/event?${params.toString()}`)
   if (response.status === 200) {
     return (await response.json()) as EventApiResponse;
   } else if (response.status === 204) {
