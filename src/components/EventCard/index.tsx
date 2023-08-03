@@ -7,9 +7,9 @@ export default component$(({ item: event }: { item: IEvent }) => {
       subtitle={event.time}
       href={`/${event.group_slug}/events/${event.eventid}`}
       subtitleHref={""}
-      src={event.highres_link || 'not found image'}
+      src={event.highres_link || "not found image"}
     >
-       {event.location}
+      {event.location}
       <div q:slot="footer">
         <div>
           {event.yes_rsvp_count} going · {event.rsvp_limit} rsvp

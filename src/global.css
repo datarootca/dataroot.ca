@@ -206,7 +206,7 @@ select::-ms-expand {
   overflow: hidden;
 }
 .select::after {
-  content: '\25BC';
+  content: "\25BC";
   position: absolute;
   top: 0;
   right: 0;
@@ -220,11 +220,12 @@ select::-ms-expand {
   color: var(--cc-section-border);
   border-left: 1px solid var(--cc-section-border);
   background-color: 1px solid var(--cc-section-border);
-  transition: .25s all ease;
+  transition: 0.25s all ease;
   pointer-events: none;
 }
 /* Transition */
-.select:hover,.select:hover::after {
+.select:hover,
+.select:hover::after {
   color: var(--cc-webkit-scrollbar-bg-hover);
   border-color: var(--cc-webkit-scrollbar-bg-hover);
 }

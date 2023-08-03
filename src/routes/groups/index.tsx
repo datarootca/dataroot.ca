@@ -28,7 +28,6 @@ export default component$(() => {
   );
 });
 
-
 export const head: DocumentHead = {
   title: "Find and Explore Data's Best groups - Dataroot",
   meta: [

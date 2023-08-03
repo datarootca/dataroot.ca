@@ -64,12 +64,12 @@
 .input:checked + .wrapper .box {
   background-color: var(--cc-btn-primary-hover-bg);
   color: white;
-  box-shadow: var(--bs-gray-200) 0px -2px 1px 0px inset, var(--bs-gray-200) 0px -1px 1px 0px, var(--bs-gray-200) 0px 2px 2px 1px;
+  box-shadow: var(--bs-gray-200) 0px -2px 1px 0px inset,
+    var(--bs-gray-200) 0px -1px 1px 0px, var(--bs-gray-200) 0px 2px 2px 1px;
 }
 
 .input:checked + .wrapper .box .inner {
   transform: translateY(-2px);
-
 }
 .wrapper {
   width: var(--dd-box-width);

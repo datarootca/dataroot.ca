@@ -2,7 +2,10 @@ import { type Signal, component$ } from "@builder.io/qwik";
 import { Link, useLocation } from "@builder.io/qwik-city";
 import NoEvent from "~/components/NoEvent";
 import stylus from "./index.module.css";
-import { getSourceIcon, useInitialDataLoder } from "~/routes/[community]/layout";
+import {
+  getSourceIcon,
+  useInitialDataLoder,
+} from "~/routes/[community]/layout";
 
 export default component$(
   ({ events }: { events: Signal<EventApiResponse | null> }) => {
@@ -50,7 +53,7 @@ export default component$(
                     <div class={stylus.articleContainer}>
                       <div class={stylus.header}>
                         <div class={stylus.source}>
-                          {getSourceIcon(event.host ?? 'meetup')}
+                          {getSourceIcon(event.host ?? "meetup")}
                         </div>
                         <h4 class={stylus.author}>{event.host}</h4>
                       </div>
@@ -62,18 +65,24 @@ export default component$(
                         <h3 class={stylus.description}>{event.description}</h3>
                       </Link>
                       <div class={stylus.footer}>
-                          <span>
-                            {new Date(event.time).toLocaleDateString("en-US", {
-                              month: "long",
-                              day: "numeric",
-                            })}
-                          </span>
-                          {event.location ? <span>{event.location}</span> : ""}
-                          {event.in_person ? <span>Physical</span> : ""}
-                          {event.is_online ? <span>Online</span> : ""}
-                          {event.duration ? <span>{event.duration}h</span> : ""}
-                          <a class={stylus.eventLink} href={event.link} target="_blank">Visit event</a>
-                        </div>
+                        <span>
+                          {new Date(event.time).toLocaleDateString("en-US", {
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </span>
+                        {event.location ? <span>{event.location}</span> : ""}
+                        {event.in_person ? <span>Physical</span> : ""}
+                        {event.is_online ? <span>Online</span> : ""}
+                        {event.duration ? <span>{event.duration}h</span> : ""}
+                        <a
+                          class={stylus.eventLink}
+                          href={event.link}
+                          target="_blank"
+                        >
+                          Visit event
+                        </a>
+                      </div>
                     </div>
                     <div class={stylus.img}>
                       <img

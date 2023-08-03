@@ -8,9 +8,9 @@ export async function fetchEvents(
     if (value instanceof Date) {
       stringifiedFilter[key] = value.toISOString();
     } else {
-        if(value === undefined || value === "") {
-            continue;
-        }
+      if (value === undefined || value === "") {
+        continue;
+      }
       stringifiedFilter[key] = String(value);
     }
   }
@@ -31,12 +31,14 @@ export async function fetchEvents(
   throw new Error("Unknown Error"); // Or handle it based on your specific use case
 }
 
-export async function fetchDetailedEvent(eventid: number): Promise<IEvent | null> {
+export async function fetchDetailedEvent(
+  eventid: number
+): Promise<IEvent | null> {
   const response = await fetch(`${BASE_URL}/event/${eventid}`);
 
   if (response.status === 200) {
     const parserResponse = (await response.json()) as EventApiResponse;
-    return parserResponse.records[0]; 
+    return parserResponse.records[0];
   } else if (response.status === 204) {
     // Status 204 means "No Content"
     return null; // Or handle it based on your specific use case
