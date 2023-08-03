@@ -1,0 +1,29 @@
+.spinner {
+  height: 1.5rem;
+  width: 1.5rem;
+  animation: spin 2s linear infinite;
+  color: white;
+}
+
+.spinner circle {
+  opacity: 25%;
+}
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+.text {
+  margin-left: 8px;
+}
+.spinner path {
+  opacity: 75%;
+  fill: var(--dd-seconadry-bg);
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

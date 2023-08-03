@@ -84,7 +84,7 @@ body {
   --dd-bg: #fff;
   --dd-primary-bg: rgb(190, 38, 37);
   --dd-seconadry-bg: rgb(230, 38, 35);
-
+  --dd-select-width: 8rem;
   --cc-text: var(--bs-gray-800);
   --dd-title: var(--bs-gray-900);
   --cc-btn-primary-bg: var(--bs-primary);
@@ -100,6 +100,7 @@ body {
   --cc-toggle-knob-icon-color: #ecf2fa;
   --cc-block-text: var(--bs-body-color);
   --cc-section-border: var(--bs-gray-400);
+  --cc-section-border-hover: var(--bs-gray-600);
   --cc-overlay-bg: rgba(4, 6, 8, 0.85);
   --cc-webkit-scrollbar-bg: #cfd5db;
   --cc-webkit-scrollbar-bg-hover: #9199a0;
@@ -175,4 +176,60 @@ body {
   line-height: var(--bs-body-line-height);
   margin: 0;
   text-align: var(--bs-body-text-align);
+}
+
+select {
+  appearance: none;
+  outline: 0;
+  border: 0;
+  box-shadow: none;
+  flex: 1;
+  padding: 0 1em;
+  color: var(--cc-text);
+
+  background-color: var(--bs-gray-100);
+  color: var(--cc-section-border-hover);
+  border: 1px solid var(--cc-section-border);
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 550;
+  font-size: 12px;
+}
+select::-ms-expand {
+  display: none;
+}
+.select {
+  position: relative;
+  display: flex;
+  height: 2rem;
+  width: var(--dd-select-width);
+  overflow: hidden;
+}
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-weight: 550;
+  font-size: 12px;
+  background-color: var(--bs-gray-100);
+  color: var(--cc-section-border);
+  border-left: 1px solid var(--cc-section-border);
+  background-color: 1px solid var(--cc-section-border);
+  transition: .25s all ease;
+  pointer-events: none;
+}
+/* Transition */
+.select:hover,.select:hover::after {
+  color: var(--cc-webkit-scrollbar-bg-hover);
+  border-color: var(--cc-webkit-scrollbar-bg-hover);
+}
+
+select:hover {
+  color: var(--dd-title);
+  border-color: var(--cc-webkit-scrollbar-bg-hover);
 }

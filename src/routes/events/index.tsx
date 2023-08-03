@@ -1,17 +1,22 @@
 import { component$, $, useStore, useVisibleTask$ } from "@builder.io/qwik";
 import stylus from "./index.module.css";
 import styles from "./index.module.css";
-import Card from "~/components/card";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import { type DocumentHead, routeLoader$ } from "@builder.io/qwik-city";
 import List from "~/components/list";
 import Spinner from "~/components/spinner";
 import { fetchEvents } from "~/app/api";
 import type { URLSearchParams } from "url";
+import EventCard from "~/components/EventCard";
+import Checkbox from "~/components/Checkbox";
+import NoEvent from "~/components/NoEvent";
+
+
+
 
 function initializeFilter(
   searchParams: URLSearchParams
 ): RequestFindEventFilter {
-  const filter: Partial<RequestFindEventFilter> = {};
+  const filter: RequestFindEventFilter = {};
 
   searchParams.forEach((value, key) => {
     switch (key) {
@@ -19,6 +24,15 @@ function initializeFilter(
       case "is_online":
         filter[key] = "true" === value;
         break;
+      case "type":
+          filter.is_online = "online" === value;
+          break;
+      case "location":
+        filter.location = value;
+        break;
+      case "q":
+          filter.name = value;
+            break;
       case "rsvp_limit":
       case "page":
       case "page_size":
@@ -35,55 +49,51 @@ function initializeFilter(
   return filter as RequestFindEventFilter;
 }
 
-const handleRetrivingEvents = $((searchParams: URLSearchParams, page = 1) => {
-  const filter = initializeFilter(searchParams);
-  filter.page = page;
-  return fetchEvents(filter);
+const handleRetrivingEvents = $((filter: RequestFindEventFilter,page =1 ) => {
+    filter.page = page;
+    return fetchEvents(filter);
 });
 export const useInitialDataLoader = routeLoader$(
-  async ({ url }): Promise<EventApiResponse | null> => {
-    return handleRetrivingEvents(url.searchParams);
-  }
-);
-export const changePageWithoutReload = $(
-  async (filter: RequestFindEventFilter) => {
-    console.log(filter);
-    const query = [];
-    if (filter.in_person) {
-      query.push(`in=person`);
+  async ({ url }): Promise<{
+    filter: RequestFindEventFilter,
+    response: EventApiResponse | null
+  }> => {
+  const filter = initializeFilter(url.searchParams);
+   try {
+    const response = await handleRetrivingEvents(filter);
+    return {
+      filter,
+      response,
+    } 
+   }catch {
+    return {
+      filter,
+      response: null,
     }
-    if (filter.is_online) {
-      query.push(`type=online`);
-    }
-    if (filter.name) {
-      query.push(`q=${filter.name}`);
-    }
-    if (filter.has_fee !== undefined) {
-      query.push(`has_fee=${filter.has_fee}`);
-    }
-    if (filter.location) {
-      query.push(`location=${filter.location}`);
-    }
-    window.history.pushState(
-      "",
-      "",
-      `${window.location.origin}${window.location.pathname}?${query.join("&")}`
-    );
+   }
   }
 );
 
+
 export default component$(() => {
   const initialData = useInitialDataLoader();
+
   const state = useStore<{
-    filter: RequestFindEventFilter;
     items: IEvent[];
+    count: number,
+    page: number,
+    pages: number,
+    filter: RequestFindEventFilter
     loadingMore: boolean;
   }>({
-    items: initialData.value?.records ?? [],
+    filter: initialData.value.filter,
+    page: initialData.value?.response?.meta.page ?? 0,
+    pages: initialData.value?.response?.meta.pages ?? 0,
+    items: initialData.value?.response?.records ?? [],
+    count: initialData.value?.response?.meta.count ?? 0,
     loadingMore: false,
-    filter: {},
   });
-  state;
+ 
   useVisibleTask$(({ cleanup }) => {
     const nearBottom = async () => {
       if (
@@ -92,18 +102,20 @@ export default component$(() => {
         !state.loadingMore
       ) {
         state.loadingMore = true;
-
+        state.filter.page = state.page + 1;
         const newEvents = await fetchEvents(state.filter);
 
-        if (!newEvents && newEvents.records?.length === 0) {
+        if (newEvents?.meta.page === state.filter.pages) {
           window.removeEventListener("scroll", nearBottom);
           state.loadingMore = false;
           return;
         }
+        if(newEvents) {
+          state.items.push(...newEvents.records);
+          state.page = newEvents.meta.page;
+          state.pages = newEvents.meta.pages;
+        }
 
-        state.items.push(...newEvents.records);
-
-        // small timeout to prevent multiple requests
         setTimeout(() => (state.loadingMore = false), 500);
       }
     };
@@ -112,16 +124,83 @@ export default component$(() => {
 
     cleanup(() => window.removeEventListener("scroll", nearBottom));
   });
+  const changePageWithoutReload = $(
+    async (filter: RequestFindEventFilter) => {
+      const query = [];
+      if (filter.in_person) {
+        query.push(`in_person=true`);
+      } 
+       if (filter.is_online) {
+        query.push(`type=online`);
+      }
+      if (filter.name) {
+        query.push(`q=${filter.name}`);
+      }
+      if (filter.fee) {
+        query.push(`fee=${filter.fee}`);
+      }
+      if (filter.location) {
+        query.push(`location=${filter.location}`);
+      }
+      if (filter.time_frame) {
+        query.push(`time_frame=${filter.time_frame}`);
+      }
+      window.history.pushState(
+        "",
+        "",
+        `${window.location.origin}${window.location.pathname}${query.length === 0 ? '' : '?'+query.join("&")}`
+      );
+      try {
+        const response  = await handleRetrivingEvents(filter);
+        if(response)  {
+          state.items = response.records;
+          state.count = response.meta.count;
+          state.page = response.meta.page;
+          state.pages = response.meta.pages;
+          return;
+        }
+        state.items = [];
+        state.count = 0;
+        state.page = 1;
+        state.pages = 1;
+      } catch(error)  {
+        state.items = [];
+        state.count = 0;
+        state.page = 1;
+        state.pages = 1;
+      }
+    }
+  );
   const onPersonChange = $(async () => {
     state.filter.in_person = !state.filter.in_person;
+    if(!state.filter.in_person) {
+      delete state.filter.in_person;
+    }
     changePageWithoutReload(state.filter);
   });
   const onOnlineChange = $(async () => {
     state.filter.is_online = !state.filter.is_online;
+    if(!state.filter.is_online) {
+      delete state.filter.is_online;
+    }
     changePageWithoutReload(state.filter);
   });
   const onFeeChange = $(async () => {
-    state.filter.has_fee = !state.filter.has_fee;
+    state.filter.fee = !state.filter.fee;
+    if(!state.filter.fee) {
+      delete state.filter.fee;
+    }
+    changePageWithoutReload(state.filter);
+  });
+  const onDateRangeChange = $(async (value: any) => {
+    if(value.target.value !== 'Any') {
+      state.filter.time_frame = value.target.value
+    } else {
+      state.filter.time_frame = undefined;
+    }
+    changePageWithoutReload(state.filter);
+  });
+  const handleSearch = $(async () => {
     changePageWithoutReload(state.filter);
   });
   return (
@@ -130,36 +209,38 @@ export default component$(() => {
         <div class={styles.hero}>
           <h2>Events</h2>
         </div>
+        <div class={stylus.eventListWrapper}>
+        <div class={stylus.sidebar}>
+        <div class={stylus.sidebarSlider}>
         <div class={stylus.search}>
           <div class={stylus.searchInput}>
             <input
-              placeholder="search"
+              placeholder="Search"
+              value={state.filter.name}
               type="text"
               onInput$={(ev) =>
-                (state.filter.search = (ev.target as HTMLInputElement).value)
+                (state.filter.name = (ev.target as HTMLInputElement).value)
               }
             />
           </div>
           <div class={stylus.locationInput}>
             <input
               type="texst"
-              placeholder="location"
+              placeholder="Location"
+              value={state.filter.location}
               onInput$={(ev) =>
                 (state.filter.location = (ev.target as HTMLInputElement).value)
               }
             />
           </div>
-          <button class={styles.searchButton}>
+          <button class={styles.searchButton} onClick$={handleSearch}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
               fill="none"
-              class="injected-svg text-white fill-current"
-              data-src="https://secure.meetupstatic.com/next/images/design-system-icons/search-outline.svg"
               xmlns:xlink="http://www.w3.org/1999/xlink"
-              style="width:20px;height:20px;width:20px;height:20px"
               data-icon="icon-7"
             >
               <path
@@ -170,45 +251,30 @@ export default component$(() => {
             </svg>
           </button>
         </div>
-        <div>
-          <button onClick$={onPersonChange}>
-            inPerson {state.filter.is_online}
-          </button>
-          <button onClick$={onOnlineChange}>Online</button>
-          <button onClick$={onFeeChange}>Fee</button>
-          <select onClick$={onFeeChange}>
-            <option value="Today">Today</option>
-            <option value="ThisWeek">this week</option>
-            <option value="ThisMonth">this month</option>
-            <option value="Custom">Upcoming</option>
-          </select>
+        <div class={stylus.filters}>
+          <Checkbox label={"In person"} value={state.filter.in_person!} onInputChange={onPersonChange}/>
+          <Checkbox label={"Online"} value={state.filter.is_online!} onInputChange={onOnlineChange}/>
+          <Checkbox label={"Fee"} value={state.filter.fee!} onInputChange={onFeeChange}/>
+          <div class="select">
+            <select onChange$={onDateRangeChange} >
+                <option selected={!!state.filter.time_frame} value="Any">Any</option>
+                <option selected={state.filter.time_frame === 'Today'} value="Today">Today</option>
+                <option selected={state.filter.time_frame === 'ThisWeek'} value="ThisWeek">This week</option>
+                <option selected={state.filter.time_frame === 'ThisMonth'} value="ThisMonth">This month</option>
+                {/** <option value="Custom">Custom</option> */}
+              </select>
+            </div>
         </div>
-      </section>
-      <section class="container">
-        <div>test</div>
-        <List>
+        </div>
+        </div>
+        {state.items.length === 0 
+          ? <NoEvent />
+          : (<List>
           {state.items.map((event) => (
-            <Card
+            <EventCard
               key={event.eventid}
-              title={event.name}
-              subtitle={event.time}
-              href={`/${event.group_slug}/events/${event.eventid}`}
-              subtitleHref={""}
-              src={event.highres_link}
-            >
-              {event.location}
-              <div q:slot="footer">
-                <div>
-                  {event.yes_rsvp_count} going · {event.rsvp_limit} rsvp
-                </div>
-                <div>
-                  {event.is_online ? "online" : ""}
-                  {event.in_person
-                    ? (event.is_online ? " · " : "") + "person"
-                    : ""}
-                </div>
-              </div>
-            </Card>
+              item={event}
+              />
           ))}
           {state.loadingMore ? (
             <div class="mt-14">
@@ -217,8 +283,106 @@ export default component$(() => {
           ) : (
             <div class="mt-14 h-2 w-2 self-center rounded-full bg-stone-200 dark:bg-slate-600" />
           )}
-        </List>
+        </List>)
+          }
+          </div>
+       
       </section>
     </>
   );
 });
+
+
+export const head: DocumentHead = {
+  title: "Find and Explore Data's Best events - Dataroot",
+  meta: [
+    {
+      name: "description",
+      content: "description",
+    },
+    {
+      name: "robots",
+      content: "all",
+    },
+    {
+      name: "googlebot",
+      content: "all",
+    },
+    {
+      property: "og:locale",
+      content: "en_US",
+    },
+    {
+      property: "og:title",
+      content: "Find and Explore Data's Best events - Dataroot",
+    },
+    {
+      property: "og:description",
+      content: "title",
+    },
+    {
+      property: "og:url",
+      content: "title",
+    },
+    {
+      property: "og:email",
+      content: "hello@dataroot.ca",
+    },
+    {
+      property: "og:site_name",
+      content: "dataroot.ca",
+    },
+    {
+      property: "type",
+      content: "articles",
+    },
+    {
+      property: "og:updated_time",
+      content: "2023-07--8T13:37:33+00:00",
+    },
+    {
+      property: "og:image",
+      content: "url",
+    },
+    {
+      property: "og:image:width",
+      content: "1200",
+    },
+    {
+      property: "og:image:height",
+      content: "600",
+    },
+    {
+      property: "og:image:alt",
+      content: "alt",
+    },
+    {
+      property: "og:image:type",
+      content: "image/png",
+    },
+    {
+      property: "twitter:card",
+      content: "image/png",
+    },
+    {
+      property: "twitter:title",
+      content: "image/png",
+    },
+    {
+      property: "twitter:description",
+      content: "image/png",
+    },
+    {
+      property: "twitter:image",
+      content: "image/png",
+    },
+    {
+      property: "apple-mobile-web-app-capable",
+      content: "yes",
+    },
+    {
+      property: "apple-mobile-web-app-status-bar-style",
+      content: "black",
+    },
+  ],
+};

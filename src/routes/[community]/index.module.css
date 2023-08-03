@@ -128,13 +128,7 @@
   white-space: pre-wrap;
   word-break: break-word;
 }
-.circle {
-  fill: none;
-  stroke: var(--color, #000000);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 32px;
-}
+
 .active {
   background: #fff;
   color: black !important;

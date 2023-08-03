@@ -49,6 +49,12 @@ declare global {
     eventid: string;
     /** Event title */
     name: string;
+    host: string;
+    speaker: string;
+    agenda: string;
+    start_time: string;
+    end_time: string;
+    source: string;
     /** Event description */
     description: string | null;
     /** External identifier */
@@ -165,12 +171,12 @@ declare global {
   }
 
   interface RequestFindEventFilter {
-    name?: String;
+    name?: string;
     in_person?: boolean;
     is_online?: boolean;
     group_slug?: string;
     location?: string;
-    has_fee?: boolean;
+    fee?: boolean;
     rsvp_limit?: number;
     time_frame?: "Custom" | "Today" | "ThisWeek" | "ThisMonth";
     start_date?: Date;
@@ -178,14 +184,16 @@ declare global {
     status?: string;
     page?: number;
     page_size?: number;
+    [key: string]: boolean | number | Date | string | undefined;
   }
 
   type ApiGroupDetailedResponse = {
     name: string;
     description: string;
     slug: string;
-    active: bool;
-    private: bool;
+    active: boolean;
+    fee: boolean;
+    private: boolean;
     members: string;
     city_name: string;
     state_symbol: string;

@@ -7,15 +7,15 @@ export default component$(() => {
   const menu = [
     {
       name: "Articles",
-      uri: "/articles",
+      uri: "/articles/",
     },
     {
       name: "Events",
-      uri: "/events",
+      uri: "/events/",
     },
     {
       name: "Groups",
-      uri: "/groups",
+      uri: "/groups/",
     },
   ];
   const currentLocation = location.url.pathname;

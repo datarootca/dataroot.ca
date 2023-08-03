@@ -1,7 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 ``;
 import styles from "./index.module.css";
-import { Link } from "@builder.io/qwik-city";
 export default component$(() => {
   return (
     <section class={styles.page_404}>
@@ -14,9 +13,6 @@ export default component$(() => {
 
             <div class={styles.contant_box_404}>
               <p>Sorry, we couldn't find any events</p>
-              <Link href="/events" class={styles.link_404}>
-                Take me back to events
-              </Link>
             </div>
           </div>
         </div>

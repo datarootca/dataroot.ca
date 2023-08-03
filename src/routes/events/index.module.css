@@ -2,6 +2,9 @@
   margin-top: 24px;
 }
 .searchButton {
+  height: 30px;
+  display: flex;
+  align-items: center;
   background-color: var(--bg-secondary);
   color: var(--bg-secondary);
   border: none;
@@ -10,12 +13,22 @@
   border-bottom-right-radius: 0.5rem;
   --tw-bg-opacity: 1;
   padding: 0.5rem;
+  cursor: pointer;
 }
 .searchButton svg {
   color: white;
   fill: white;
 }
+
+
+.filters {
+  display: flex;
+  align-items: center;
+  overflow: auto;
+  gap: 5px;
+}
 .search {
+  margin-bottom: 5px;
   outline: 2px solid transparent;
   outline-offset: 2px;
   display: flex;
@@ -23,6 +36,7 @@
   width: 100%;
   position: relative;
 }
+
 .searchInput {
   width: 100%;
   flex: 1 0 calc(50% - 42px);
@@ -45,7 +59,7 @@
 }
 .searchInput input,
 .locationInput input {
-  height: 42px;
+  height: 30px;
   padding-left: 16px;
   text-rendering: auto;
   letter-spacing: normal;
@@ -59,7 +73,8 @@
   -webkit-rtl-ordering: logical;
   outline: 2px solid transparent;
   border-top-right-radius: 0;
-  font-size: 100%;
+  font-size: 12px;
+  font-weight: 550;
   line-height: inherit;
   color: inherit;
   margin: 0;
@@ -68,4 +83,30 @@
   --tw-border-opacity: 1;
   border-top: 1px solid var(--cc-section-border);
   border-bottom: 1px solid var(--cc-section-border);
+}
+@media (min-width: 880px) {
+  .eventListWrapper > div {
+     margin-top: 0;
+  }
+  .eventListWrapper {
+    position: relative;
+    display: flex;
+    gap: 20px;
+  }
+  .sidebar {
+    min-width: 350px;
+    max-width: 350px;
+  }
+  .sidebarSlider {
+    top: 75px;
+    position: sticky;
+    display: block;
+  }
+  .filters {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    --dd-box-width: 100%;
+    --dd-select-width: 100%;
+  }
 }

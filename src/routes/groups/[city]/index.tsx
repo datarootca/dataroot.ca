@@ -47,7 +47,9 @@ export default component$(() => {
         </div>
 
         <List>
-          {groupSignal.value.items.map((group) => <GroupCard key={group.group_slug} item={group} />)}
+          {groupSignal.value.items.map((group) => (
+            <GroupCard key={group.group_slug} item={group} />
+          ))}
         </List>
       </section>
     </>

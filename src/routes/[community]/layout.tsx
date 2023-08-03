@@ -4,6 +4,7 @@ import { Link, routeLoader$, useLocation } from "@builder.io/qwik-city";
 import { fetchDetailGroup } from "~/app/api";
 import Notfound from "~/components/notfound";
 import Groupcard from "~/components/GroupCard";
+import Location from "~/components/Icons/Location";
 
 export const useInitialDataLoder = routeLoader$(
   async ({ status, params }): Promise<ApiGroupDetailedResponse | undefined> => {
@@ -16,7 +17,7 @@ export const useInitialDataLoder = routeLoader$(
     return item;
   }
 );
-function getIcon(provider: string) {
+export function getSourceIcon(provider: string) {
   if (provider === "slack") {
     return (
       <svg
@@ -213,6 +214,8 @@ export default component$(() => {
             <img
               role="presentation"
               loading="eager"
+              width={100}
+              height={100}
               class={stylus.img}
               src={community.highres_link}
               alt={community.name}
@@ -221,13 +224,9 @@ export default component$(() => {
         </div>
         <div class={stylus.container}>
           <div class={stylus.eventWrapper}>
-            <div class={stylus.iconWrapper}></div>
             <div class={stylus.titleWrapper}>
               <div class={stylus.heroWrapper}>
                 <h2 class={stylus.hero}>{community.name.toUpperCase()}</h2>
-                <div class={[stylus.badge, stylus.badgeActive]}>
-                  {community.active ? "ACTIVE" : "UNACTIVE"}
-                </div>
               </div>
               <div class={stylus.subtitle}>
                 <span class={stylus.author}>{community.organizer}</span>
@@ -235,24 +234,17 @@ export default component$(() => {
                 <span class={stylus.access}>
                   {community.private ? "PRIVATE" : "PUBLIC"}
                 </span>
+                <span class={stylus.dot}></span>
+                <span class={stylus.access}>
+                  {community.active ? "ACTIVE" : "UNACTIVE"}
+                </span>
               </div>
             </div>
           </div>
 
           <div class={stylus.infoWrapper}>
             <div class={stylus.info}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 512 512"
-              >
-                <path
-                  d="M256,48c-79.5,0-144,61.39-144,137,0,87,96,224.87,131.25,272.49a15.77,15.77,0,0,0,25.5,0C304,409.89,400,272.07,400,185,400,109.39,335.5,48,256,48Z"
-                  class={stylus.circle}
-                />
-                <circle cx="256" cy="192" r="48" class={stylus.circle} />
-              </svg>
+              <Location />
               <span>
                 {community.city_name},{community.state_symbol.toUpperCase()}
               </span>
@@ -304,7 +296,7 @@ export default component$(() => {
             <div class={stylus.links}>
               {groups?.map((g, i) => (
                 <a class={stylus.link} target="_blank" key={i} href={g.url}>
-                  {getIcon(g.type)}
+                  {getSourceIcon(g.type)}
                 </a>
               ))}
             </div>
@@ -345,45 +337,51 @@ export default component$(() => {
       <section class="container">
         <h3>Similiar group nearby</h3>
         <div class={stylus.slider}>
-          <Groupcard item={
-            {
-              group_name: 'test',
-              group_highres_link: 'https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg',
-              group_slug: 'https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg',
-              city_name: 'Vancovuer',
-              state_symbol: 'BC',
-              city_slug: 'vancovuer',
-              organizer: 'TEst',
+          <Groupcard
+            item={{
+              group_name: "test",
+              group_highres_link:
+                "https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg",
+              group_slug:
+                "https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg",
+              city_name: "Vancovuer",
+              state_symbol: "BC",
+              city_slug: "vancovuer",
+              organizer: "TEst",
               event_count: 1,
               members: 1,
-            }
-          } />
-          <Groupcard item={
-            {
-              group_name: 'test',
-              group_highres_link: 'https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg',
-              group_slug: 'https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg',
-              city_name: 'Vancovuer',
-              state_symbol: 'BC',
-              city_slug: 'vancovuer',
-              organizer: 'TEst',
+            }}
+          />
+          <Groupcard
+            item={{
+              group_name: "test",
+              group_highres_link:
+                "https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg",
+              group_slug:
+                "https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg",
+              city_name: "Vancovuer",
+              state_symbol: "BC",
+              city_slug: "vancovuer",
+              organizer: "TEst",
               event_count: 1,
               members: 1,
-            }
-          } />
-          <Groupcard item={
-            {
-              group_name: 'test',
-              group_highres_link: 'https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg',
-              group_slug: 'https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg',
-              city_name: 'Vancovuer',
-              state_symbol: 'BC',
-              city_slug: 'vancovuer',
-              organizer: 'TEst',
+            }}
+          />
+          <Groupcard
+            item={{
+              group_name: "test",
+              group_highres_link:
+                "https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg",
+              group_slug:
+                "https://secure.meetupstatic.com/photos/event/9/5/1/6/highres_471398166.jpeg",
+              city_name: "Vancovuer",
+              state_symbol: "BC",
+              city_slug: "vancovuer",
+              organizer: "TEst",
               event_count: 1,
               members: 1,
-            }
-          } />
+            }}
+          />
         </div>
       </section>
     </>

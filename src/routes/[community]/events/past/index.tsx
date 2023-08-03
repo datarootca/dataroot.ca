@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import {  routeLoader$ } from "@builder.io/qwik-city";
+import { routeLoader$ } from "@builder.io/qwik-city";
 import { fetchEvents } from "~/app/api";
 import EventCardDetail from "~/components/EventCardDetail";
 export const useInitialRecentDataLoder = routeLoader$(
@@ -10,7 +10,6 @@ export const useInitialRecentDataLoder = routeLoader$(
       status: "Past",
     });
 
-   
     if (!eventsResponse) {
       status(404);
       return null;
@@ -22,5 +21,5 @@ export const useInitialRecentDataLoder = routeLoader$(
 
 export default component$(() => {
   const events = useInitialRecentDataLoder();
-  return <EventCardDetail events={events} />
+  return <EventCardDetail events={events} />;
 });
